@@ -1,0 +1,17 @@
+baseURL = "http://ssudake.com/"
+languageCode = "en-us"
+title = "Sanket Sudake"
+theme = "kiera"
+
+pygmentsCodeFences = true
+disqusShortname = "" #Disqus shortname
+googleAnalytics = "" #Google Analytics ID
+
+[author]
+    name = "Sanket Sudake"
+    github = "ssudake21"
+    linkedin = "sanketsudake"
+    twitter = "ssudake21"
+
+[params]
+    tagline = "the tagline for this website"
