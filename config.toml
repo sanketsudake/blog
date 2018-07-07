@@ -1,24 +1,32 @@
 baseURL = "https://ssudake.com/"
 languageCode = "en-us"
 title = "Sanket Sudake"
-theme = "kiera"
+theme = "ananke"
 copyright = "Copyright &copy;2018 - Sanket Sudake"
 
 canonifyurl = true
 enableEmoji = true
 pygmentsCodeFences = true
-disqusShortname =  "" #Disqus shortname
-googleAnalytics  =  "" #Google Analytics ID
-
+disqusShortname =  "ssanket"
+googleAnalytics  =  "UA-121884261-1"
 paginate = 5
 summaryLength = 30
 
-[author]
-    name = "Sanket Sudake"
-    github = "ssudake21"
-    linkedin = "sanketsudake"
-    twitter = "ssudake21"
+[sitemap]
+  changefreq = "monthly"
+  priority = 0.5
+  filename = "sitemap.xml"
 
 [params]
-    tagline = "Personal thoughts"
-
+  favicon = ""
+  description = "Personal thoughts"
+  facebook = ""
+  twitter = "https://twitter.com/ssudake21"
+  instagram = ""
+  youtube = ""
+  github = "https://github.com/ssudake21"
+  linkedin = "https://www.linkedin.com/in/sanketsudake"
+  # choose a background color from any on this page: http://tachyons.io/docs/themes/skins/ and preface it with "bg-"
+  background_color_class = "bg-black"
+  featured_image = "/images/gohugo-default-sample-hero-image.jpg"
+  recent_posts_number = 5

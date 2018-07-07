@@ -2,7 +2,6 @@
 	path = public
 	url = git@github.com:ssudake21/ssudake21.github.io.git
 	branch = master
-[submodule "themes/kiera"]
-	path = themes/kiera
-	url = https://github.com/avianto/hugo-kiera.git
-	branch = master
+[submodule "themes/ananke"]
+	path = themes/ananke
+	url = https://github.com/budparr/gohugo-theme-ananke.git
