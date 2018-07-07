@@ -1,11 +1,17 @@
-baseURL = "http://ssudake.com/"
+baseURL = "https://ssudake.com/"
 languageCode = "en-us"
 title = "Sanket Sudake"
 theme = "kiera"
+copyright = "Copyright &copy;2018 - Sanket Sudake"
 
+canonifyurl = true
+enableEmoji = true
 pygmentsCodeFences = true
-disqusShortname = "" #Disqus shortname
-googleAnalytics = "" #Google Analytics ID
+disqusShortname =  "" #Disqus shortname
+googleAnalytics  =  "" #Google Analytics ID
+
+paginate = 5
+summaryLength = 30
 
 [author]
     name = "Sanket Sudake"
@@ -14,4 +20,5 @@ googleAnalytics = "" #Google Analytics ID
     twitter = "ssudake21"
 
 [params]
-    tagline = "the tagline for this website"
+    tagline = "Personal thoughts"
+
