@@ -26,7 +26,7 @@ pygmentsUseClasses = true # new add
   keywords = "blog,developer,personal" # Site keywords.
   avatarurl = "images/1511975.jpeg" # Contain the path of the optionnal avatar in the static folder.
 
-  footercontent = "Enter a text here." # Add footer content
+  # footercontent = "Enter a text here." # Add footer content
   # fixedbarContent = "Do you want to know me more private?→" # Add fixedbar content
   # fixedbarContentAfter = "Thank You! Please share it if you like it→" # Add fixedbar content after click
 
