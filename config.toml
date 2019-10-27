@@ -1,16 +1,18 @@
 baseURL = "https://ssudake.com/"
-languageCode = "en-us"
 title = "Sanket Sudake"
-theme = "ananke"
-copyright = "Copyright &copy;2018 - Sanket Sudake"
-
+theme = "coder-portfolio"
+languageCode = "en-us"
+copyright = "Copyright &copy;2019 - Sanket Sudake"
 canonifyurl = true
 enableEmoji = true
-pygmentsCodeFences = true
 disqusShortname =  "ssanket"
 googleAnalytics  =  "UA-121884261-1"
 paginate = 5
 summaryLength = 30
+pygmentsstyle = "b2" # Color-theme or style for syntax highlighting.
+pygmentscodefences = true # Enable code fence background highlighting.
+pygmentscodefencesguesssyntax = true # Enable syntax guessing for code fences without specified language.
+pygmentsUseClasses = true # new add
 
 [sitemap]
   changefreq = "monthly"
@@ -18,15 +20,74 @@ summaryLength = 30
   filename = "sitemap.xml"
 
 [params]
-  favicon = ""
-  description = "Personal thoughts"
-  facebook = ""
-  twitter = "https://twitter.com/ssudake21"
-  instagram = ""
-  youtube = ""
-  github = "https://github.com/ssudake21"
-  linkedin = "https://www.linkedin.com/in/sanketsudake"
-  # choose a background color from any on this page: http://tachyons.io/docs/themes/skins/ and preface it with "bg-"
-  background_color_class = "bg-black"
-  featured_image = "/images/gohugo-default-sample-hero-image.jpg"
-  recent_posts_number = 5
+  author = "Sanket Sudake" # Author's name.
+  info = "Distributed Systems & Infrastructure tech enthusiast" # Author's job title or info.
+  description = "Sanket Sudake's personal website" # Site description.
+  keywords = "blog,developer,personal" # Site keywords.
+  avatarurl = "images/1511975.jpeg" # Contain the path of the optionnal avatar in the static folder.
+
+  footercontent = "Enter a text here." # Add footer content
+  # fixedbarContent = "Do you want to know me more private?→" # Add fixedbar content
+  # fixedbarContentAfter = "Thank You! Please share it if you like it→" # Add fixedbar content after click
+
+  # Whether you want to hide copyright and credits in the footer.
+  hideCredits = false
+  hideCopyright = false
+
+  # Custom CSS
+  custom_css = []
+
+  # Alignment of Mobile Menu items
+  itemscentered = true
+
+  # RTL support
+  rtl = false
+
+  # Bottom sns share
+  snsShare = true # new add
+  # Popular sns share
+  # if you want add sns. please message!
+  # enableTwitterShare = true  # new add
+  # enableFacebookShare = true # new add
+  # enableHatenaShare = true   # new add
+  # enableLineShare = true     # new add
+  # enableLinkedInShare = true # new add
+
+  thumbnail = "images/tn.png" # default sns thumbnail
+
+  # Multilanguage mode
+  langseparator = "|" # Separates menus from language selectors when site is multilingual.
+
+# Social links
+[[params.social]]
+    name = "Github"
+    icon = "fab fa-github"
+    weight = 1
+    url = "https://github.com/sanketsudake/"
+[[params.social]]
+    name = "Twitter"
+    icon = "fab fa-twitter"
+    weight = 2
+    url = "https://twitter.com/SanketSudake/"
+[[params.social]]
+    name = "LinkedIn"
+    icon = "fab fa-linkedin"
+    weight = 3
+    url = "https://www.linkedin.com/in/sanketsudake/"
+[[params.social]]
+    # If icon is not set, Text is displayed.
+    name = "Stackoverflow"
+    icon = "fab fa-stack-overflow"
+    weight = 4
+    url = "https://stackoverflow.com/users/1791992/sanket-sudake"
+  
+  # Menu links
+  # [[menu.main]]
+  #   name = "Blog"
+  #   weight = 1
+  #   url  = "posts"
+  [[menu.main]]
+    name = "About"
+    weight = 2
+    url = "about"
+
