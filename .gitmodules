@@ -1,7 +1,6 @@
-[submodule "public"]
-	path = public
-	url = git@github.com:ssudake21/ssudake21.github.io.git
-	branch = master
 [submodule "themes/coder-portfolio"]
 	path = themes/coder-portfolio
 	url = https://github.com/naro143/hugo-coder-portfolio.git
+[submodule "public"]
+	path = public
+	url = git@github.com:sanketsudake/sanketsudake.github.io.git
