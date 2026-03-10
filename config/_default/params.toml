@@ -1,0 +1,6 @@
+colorScheme = "congo"
+
+homepage.layout = "profile"
+
+footer.showThemeAttribution = false
+footer.showAppearanceSwitcher = true
