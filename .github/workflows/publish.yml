@@ -3,7 +3,7 @@ name: Publish to GitHub Pages Repo
 on:
   push:
     branches:
-      - naster
+      - master
 
 jobs:
   build:
