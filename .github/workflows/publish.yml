@@ -16,13 +16,14 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v6
         with:
-          go-version-file: "go.mod"
+          go-version: 1.26.1
           cache: true
 
       - name: Deploy the site
         uses: benmatselby/hugo-deploy-gh-pages@main
         env:
           HUGO_VERSION: 0.157.0
+          GO_VERSION: 1.26.1
           TARGET_REPO: sanketsudake/sanketsudake.github.io
           TARGET_BRANCH: master
           TOKEN: ${{ secrets.SYNC_BUILD_TOKEN }}
