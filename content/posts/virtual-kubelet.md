@@ -5,4 +5,4 @@ tags = ["virtual kubelet", "kubernetes"]
 categories = []
 +++
 
-https://www.infracloud.io/hybrid-virtual-kubelet/
+https://www.infracloud.io/blogs/hybrid-virtual-kubelet/

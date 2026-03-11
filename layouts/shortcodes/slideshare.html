@@ -1,0 +1,16 @@
+{{- $key := .Get "key" -}}
+{{- if $key -}}
+<div class="slideshare-embed">
+  <iframe
+    src="https://www.slideshare.net/slideshow/embed_code/key/{{ $key }}?hostedIn=slideshare&page=upload"
+    frameborder="0"
+    marginwidth="0"
+    marginheight="0"
+    scrolling="no"
+    allowfullscreen
+    loading="lazy"
+  ></iframe>
+</div>
+{{- else -}}
+{{ errorf "slideshare shortcode: 'key' parameter is required (e.g. {{< slideshare key=\"abc123\" >}})" }}
+{{- end -}}
