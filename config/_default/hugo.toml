@@ -1,2 +1,6 @@
 baseURL = "https://ssudake.com/"
 languageCode = "en"
+
+[services]
+  [services.googleAnalytics]
+    id = "G-EVHD7VH89H"
