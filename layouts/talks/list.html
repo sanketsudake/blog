@@ -5,52 +5,51 @@
       <section class="prose mt-4 dark:prose-invert">{{ . | emojify }}</section>
     {{ end }}
   </header>
-  {{ if .Data.Pages }}
-    <div class="talks-grid">
-      {{ range (.Paginate (.Pages.ByDate.Reverse)).Pages }}
-        {{ $images := .Resources.ByType "image" }}
-        {{ $thumbnail := $images.GetMatch (.Params.thumbnail | default "*thumb*") }}
-        {{ $feature := $images.GetMatch (.Params.feature | default "*feature*") | default $thumbnail }}
-        <article class="talk-card">
-          {{ with $feature }}
-            <a href="{{ $.Permalink }}" aria-label="{{ $.Title | emojify }}">
-              <img
-                class="talk-card__thumb"
-                src="{{ (.Fill "600x330 smart").Permalink }}"
-                alt="{{ $.Params.featureAlt | default ($.Title | emojify) }}"
-                {{ if $.Site.Params.enableImageLazyLoading | default true }}loading="lazy"{{ end }}
-              />
-            </a>
-          {{ else }}
-            <a href="{{ .Permalink }}" aria-label="{{ .Title | emojify }}" class="talk-card__placeholder">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:2.5rem;height:2.5rem;opacity:0.85">
-                <path d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
-              </svg>
-            </a>
-          {{ end }}
-          <div class="talk-card__body">
-            <h2 class="talk-card__title">
-              {{ with .Params.externalUrl }}
-                <a href="{{ . }}" target="_blank" rel="external noopener">{{ $.Title | emojify }}</a>
-              {{ else }}
-                <a href="{{ .Permalink }}">{{ .Title | emojify }}</a>
+
+  {{ $allPages := .Pages.ByDate.Reverse }}
+  {{ if $allPages }}
+    {{ range $allPages.GroupByDate "2006" }}
+      <section class="talks-year-group">
+        <h2 class="talks-year-heading">{{ .Key }}</h2>
+        <ul class="talks-list">
+          {{ range .Pages }}
+            {{ $talk := . }}
+            <li class="talks-item">
+              <time class="talks-item__date" datetime="{{ .Date.Format "2006-01-02" }}">
+                {{ .Date.Format "Jan 2" }}
+              </time>
+              <div class="talks-item__content">
+                <h3 class="talks-item__title">
+                  <a href="{{ .Permalink }}">{{ .Title | emojify }}</a>
+                </h3>
+                {{ with .Params.event }}
+                  <p class="talks-item__event">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="talks-item__icon">
+                      <path fill-rule="evenodd" d="m5.75 2a.75.75 0 0 1 .75.75V4h7V2.75a.75.75 0 0 1 1.5 0V4h.25A2.75 2.75 0 0 1 18 6.75v8.5A2.75 2.75 0 0 1 15.25 18H4.75A2.75 2.75 0 0 1 2 15.25v-8.5A2.75 2.75 0 0 1 4.75 4H5V2.75A.75.75 0 0 1 5.75 2Zm-1 5.5c-.69 0-1.25.56-1.25 1.25v6.5c0 .69.56 1.25 1.25 1.25h10.5c.69 0 1.25-.56 1.25-1.25v-6.5c0-.69-.56-1.25-1.25-1.25H4.75Z" clip-rule="evenodd" />
+                    </svg>
+                    {{ . }}
+                  </p>
+                {{ end }}
+                <p class="talks-item__summary">{{ $talk.Summary | emojify }}</p>
+              </div>
+              {{ with .Params.gallery }}
+                {{ $first := index . 0 }}
+                {{ $img := resources.Get $first }}
+                {{ if $img }}
+                  {{ $thumb := $img.Fill "160x120 smart" }}
+                  <a href="{{ $talk.Permalink }}" class="talks-item__thumb-link">
+                    <img class="talks-item__thumb" src="{{ $thumb.Permalink }}" alt="{{ $talk.Title }}" loading="lazy" />
+                  </a>
+                {{ end }}
               {{ end }}
-            </h2>
-            {{ with .Params.event }}
-              <p class="talk-card__event">{{ . }}</p>
-            {{ end }}
-            {{ with .Params.year }}
-              <p class="talk-card__year">{{ . }}</p>
-            {{ end }}
-            <p class="talk-card__summary">{{ .Summary | emojify }}</p>
-          </div>
-        </article>
-      {{ end }}
-    </div>
-    {{ partial "pagination.html" . }}
+            </li>
+          {{ end }}
+        </ul>
+      </section>
+    {{ end }}
   {{ else }}
     <section class="prose mt-10 dark:prose-invert">
-      <p class="border-t py-8"><em>No talks yet.</em></p>
+      <p class="py-8"><em>No talks yet.</em></p>
     </section>
   {{ end }}
 {{ end }}

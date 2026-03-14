@@ -1,9 +1,8 @@
 ---
-title: "Platform Engineering for AI Workloads​"
+title: "Platform Engineering for AI Workloads"
 date: 2025-12-03
 slug: platform-engineering-ai-workloads
 event: "Improving Internal Course"
-year: "2025"
 summary: "Talk on how AI infrastructure and platform engineering gotogether and practical lessons learned."
 ---
 
