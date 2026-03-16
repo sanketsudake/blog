@@ -4,12 +4,12 @@ date: 2024-12-10
 slug: fission-foss-community-day
 event: "SOSS Day India 2024, Foss Day 2025"
 gallery:
-  - "images/events/soss-community-day-main.jpeg"
-  - "images/events/kubecon-india-2024.jpeg"
-  - "images/events/soss-community-day.jpeg"
-  - "images/events/soss-community-day-1.jpeg"
-  - "images/events/soss-community-day-2.jpeg"
-  - "images/events/soss-community-day-3.jpeg"
+  - "soss-community-day-main.jpeg"
+  - "kubecon-india-2024.jpeg"
+  - "soss-community-day.jpeg"
+  - "soss-community-day-1.jpeg"
+  - "soss-community-day-2.jpeg"
+  - "soss-community-day-3.jpeg"
 summary: "A talk on the journey of adopting secure software delivery practices for the Fission OSS Serverless Platform, covering challenges, solutions, and lessons learned."
 ---
 

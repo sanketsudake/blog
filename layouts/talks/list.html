@@ -34,7 +34,7 @@
               </div>
               {{ with .Params.gallery }}
                 {{ $first := index . 0 }}
-                {{ $img := resources.Get $first }}
+                {{ $img := $talk.Resources.GetMatch $first }}
                 {{ if $img }}
                   {{ $thumb := $img.Fill "160x120 smart" }}
                   <a href="{{ $talk.Permalink }}" class="talks-item__thumb-link">

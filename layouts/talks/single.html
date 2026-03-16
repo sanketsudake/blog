@@ -29,7 +29,7 @@
       <h2 class="talk-gallery__heading">Event Photos</h2>
       <div class="talk-gallery__grid">
         {{ range . }}
-          {{ $img := resources.Get . }}
+          {{ $img := $.Resources.GetMatch . }}
           {{ if $img }}
             {{ $thumb := $img.Fill "280x210 smart" }}
             {{ $full := $img.Fit "1600x1200" }}
