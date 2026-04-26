@@ -2,3 +2,4 @@ public/
 *.bkp
 resources/
 .hugo_build.lock
+*.pyc

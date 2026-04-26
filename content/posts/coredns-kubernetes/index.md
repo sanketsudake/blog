@@ -27,7 +27,8 @@ If the DNS server doesn't have this data, it tries to find for a solution from o
 
 ## What is CoreDNS in Kubernetes?
 
-CoreDNS is an open source, flexible, extensible DNS server that can be used as Kubernetes cluster DNS. CoreDNS became the [default DNS service](https://kubernetes.io/blog/2018/12/03/kubernetes-1-13-release-announcement/#coredns-is-now-the-default-dns-server-for-kubernetes) for Kubernetes 1.13+ onwards.
+CoreDNS is an open source, flexible, extensible DNS server that can be used as Kubernetes cluster DNS.
+CoreDNS became the [default DNS service](https://kubernetes.io/blog/2018/12/03/kubernetes-1-13-release-announcement/#coredns-is-now-the-default-dns-server-for-kubernetes) for Kubernetes 1.13+ onwards.
 Nowadays, when you are using a managed Kubernetes cluster or you are self-managing a cluster for your application workloads, you often focus on tweaking your application but not much on the services provided by Kubernetes or how you are leveraging them.
 DNS resolution is the basic requirement of any application so you need to ensure it's working properly.
 We would suggest looking at [dns-debugging-resolution](https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/) troubleshooting guide and ensure your CoreDNS is configured and running properly.
@@ -54,8 +55,7 @@ Below sample config using `prometheus` plugin to enable metrics collection from 
 }
 ```
 
-Following are the key coreDNS metrics, we would suggest to have in your dashboard:
-If you are using Prometheus, DataDog, Kibana etc, you may find ready to use dashboard template from community/provider.
+Following are the key coreDNS metrics, we would suggest to have in your dashboard: If you are using Prometheus, DataDog, Kibana etc, you may find ready to use dashboard template from community/provider.
 
 - **Cache Hit percentage:** Percentage of requests responded using CoreDNS cache
 - **DNS requests latency**
@@ -69,7 +69,8 @@ If you are using Prometheus, DataDog, Kibana etc, you may find ready to use dash
   - NoError: No Error, successfully processed request
 - **CoreDNS resource usage:** Different resources consumed by server such as memory, CPU etc.
 
-We were using DataDog for specific application monitoring. Following is just a sample dashboard I built with DataDog for my analysis.
+We were using DataDog for specific application monitoring.
+Following is just a sample dashboard I built with DataDog for my analysis.
 
 ![DataDog CoreDNS dashboard](dd-dashboard.png)
 
@@ -146,4 +147,5 @@ You may need to add extra instances of CoreDNS or configure HPA (Horizontal Pod 
 This blog post tries to highlight the importance of the DNS request cycle in Kubernetes, and many times you would end up in a situation where you start with "it's not DNS" but end up "it's always DNS !".
 So be careful of these landmines.
 
-Enjoyed the article? Let's start a conversation on [Twitter](https://twitter.com/sanketsudake) and share your "It's always DNS" stories and how it was resolved.
+Enjoyed the article?
+Let's start a conversation on [Twitter](https://twitter.com/sanketsudake) and share your "It's always DNS" stories and how it was resolved.
