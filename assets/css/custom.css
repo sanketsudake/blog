@@ -1,3 +1,9 @@
+/* ── Inline code: strip Tailwind Typography's backtick pseudo-elements ── */
+.prose code::before,
+.prose code::after {
+  content: "" !important;
+}
+
 /* ── SlideShare embed ────────────────────────────────────── */
 .slideshare-embed {
   position: relative;
