@@ -1,3 +1,33 @@
+// Cloudflare Workers (Static Assets) configuration for ssudake.com.
+//
+// This file pins the project name, output directory, and runtime
+// compatibility. It does NOT control the build — build command, root
+// directory, and build-time env vars are configured in:
+//   Workers project -> Settings -> Build
+//
+// Mirror these settings in the dashboard:
+//
+//   Root directory:          /
+//   Production branch:       master
+//   Build output directory:  public
+//
+//   Build command:
+//     bash scripts/cloudflare-build.sh
+//
+//   The script branches on WORKERS_CI_BRANCH: master uses the default
+//   baseURL from config/_default/hugo.toml (https://ssudake.com/), every
+//   other branch overrides baseURL with the per-branch preview URL on
+//   *-ssudake-blog.sanketsudake.workers.dev. Without this, Hugo bakes
+//   ssudake.com into preview HTML and SRI fails on the cross-origin
+//   asset fetch. See scripts/cloudflare-build.sh for the full rationale.
+//
+// Build environment variables (set under Settings -> Build -> Variables
+// for both Production and Preview):
+//
+//   HUGO_VERSION = 0.157.0   // matches .github/workflows/publish.yml
+//   GO_VERSION   = 1.26.1    // Congo theme is a Hugo Module (go.mod),
+//                            // so the build container needs Go to run
+//                            // `hugo mod get`
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "ssudake-blog",
