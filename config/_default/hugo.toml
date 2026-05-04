@@ -1,6 +1,9 @@
 baseURL = "https://ssudake.com/"
 languageCode = "en"
 
-[services]
-  [services.googleAnalytics]
-    id = "G-EVHD7VH89H"
+# Google Analytics is intentionally NOT configured here. It is gated to
+# production deployments only via config/production/hugo.toml, which is
+# loaded when the build runs with `hugo -e production` (see
+# scripts/cloudflare-build.sh). Preview builds run with `-e preview`,
+# pick up only this _default config, and therefore omit GA — so we don't
+# pollute analytics with traffic from per-branch *.workers.dev URLs.

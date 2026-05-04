@@ -1,0 +1,9 @@
+# Production-only overlay. Loaded when Hugo runs with `-e production`,
+# which the Cloudflare build script (scripts/cloudflare-build.sh) only
+# does on the master branch. Preview branches build with `-e preview`
+# and never load this file, so GA stays off everywhere except the
+# canonical ssudake.com deployment.
+
+[services]
+  [services.googleAnalytics]
+    id = "G-EVHD7VH89H"
