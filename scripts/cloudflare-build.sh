@@ -5,11 +5,16 @@
 #   bash scripts/cloudflare-build.sh
 #
 # Production (master) builds use the baseURL from config/_default/hugo.toml
-# (https://ssudake.com/). Preview builds on every other branch override
-# baseURL with the per-branch *.workers.dev preview URL so asset
-# references and Hugo's SRI integrity hashes resolve same-origin —
-# otherwise the preview HTML points at ssudake.com for its CSS/JS,
-# fails SRI's CORS check, and renders unstyled.
+# (https://ssudake.com/) and run with `-e production`, which layers in
+# config/production/hugo.toml — the only place the Google Analytics ID
+# is configured. Preview builds on every other branch run with `-e
+# preview`, which has no overlay directory, so GA is never injected
+# into preview HTML and analytics stays clean of *.workers.dev traffic.
+#
+# Previews also override baseURL with the per-branch *.workers.dev URL
+# so asset references and Hugo's SRI integrity hashes resolve
+# same-origin — otherwise the preview HTML points at ssudake.com for
+# its CSS/JS, fails SRI's CORS check, and renders unstyled.
 #
 # Workers Builds doesn't inject a deployment-URL env var (Pages exposed
 # CF_PAGES_URL; Workers Builds only gives us WORKERS_CI_BRANCH and
@@ -25,10 +30,10 @@ WORKER_NAME="ssudake-blog"
 ACCOUNT_SUBDOMAIN="sanketsudake"
 
 if [ "${WORKERS_CI_BRANCH:-}" = "$PRODUCTION_BRANCH" ]; then
-    hugo --gc --minify
+    hugo --gc --minify -e production
 else
     slug=$(printf '%s' "${WORKERS_CI_BRANCH:-local}" | tr '[:upper:]' '[:lower:]' | tr -c 'a-z0-9' '-')
     preview_url="https://${slug}-${WORKER_NAME}.${ACCOUNT_SUBDOMAIN}.workers.dev/"
     echo "Preview build for branch '${WORKERS_CI_BRANCH:-local}' -> baseURL ${preview_url}"
-    hugo --gc --minify --baseURL "$preview_url"
+    hugo --gc --minify -e preview --baseURL "$preview_url"
 fi
