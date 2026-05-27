@@ -157,6 +157,26 @@ For a new post, create the spec in that directory before touching `content/posts
 - Menu order is controlled by `weight` in `menus.en.toml` (Blog 10, Talks 20, About 30).
 - Custom CSS lives in `assets/css/custom.css` (Tailwind-friendly classes referenced from the talks layouts).
 
+## Social images & reachability tooling
+
+Python tooling lives in `scripts/` and runs from the gitignored `.venv/` (`python3 -m venv .venv && .venv/bin/pip install Pillow google-genai google-analytics-data google-api-python-client google-auth`).
+Secrets go in a gitignored `.env` (template: `.env.example`) — never commit it.
+
+**Social-share images.**
+Hugo's embedded `opengraph`/`twitter_cards` templates resolve `og:image` from frontmatter `images`, then a bundle resource matching `*feature*`, then site-level `params.images`; the Twitter card auto-upgrades to `summary_large_image` once any image exists.
+So every page gets a card: posts/talk-bundles ship a `feature.png`, flat talks set `images = ["og/talks/<slug>.png"]` (file under `static/og/talks/`), and `static/og/default.png` (set in `params.images`) covers everything else.
+Generate them with `scripts/gen-og-image.py` — a branded 1200×630 card with the title/tags/brand overlaid by Pillow over a Nano Banana (`GEMINI_API_KEY`, paid tier), `--bg`, or gradient-fallback background.
+
+When adding a post or talk, regenerate its card: `.venv/bin/python scripts/gen-og-image.py <path-to-index.md-or-flat.md>` (or `--all-content` for everything; `--default` for the site card).
+Manual background workflow (no API billing): `--print-prompts` emits a per-item prompt to paste into the Gemini app, then drop the downloaded PNGs named `<slug>.png` into a folder and run `--bg-dir <folder>`.
+The `feature.png` is a social card only — `content/posts/_index.md` has a `[cascade] feature = "no-onpage-feature"` so Congo does **not** render it as an on-page hero (it would just repeat the title); `og:image` is unaffected.
+If you change a post/talk **title or tags**, regenerate its card so the text matches.
+
+**Audit & the improvement loop.**
+`scripts/site-audit.py` crawls the built `public/` and flags SEO/UX issues (`docs/audit/<date>.md`; `--check` exits non-zero on errors) — run it after `hugo`, it should report 0 errors.
+`scripts/analytics-report.py` pulls GA4 + Search Console (setup in `docs/analytics/SETUP.md`; reports are gitignored).
+The on-demand `reachability-loop` skill (`.claude/skills/reachability-loop/`) ties these into a measure → prioritize → fix → log cycle; cycle logs live in `docs/reachability/`.
+
 ## AGENTS.md
 
 `AGENTS.md` at the repo root is a symlink to this file so other agentic tools (Codex, Cursor, Copilot) read the same guidance.
