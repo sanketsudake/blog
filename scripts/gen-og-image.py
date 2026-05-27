@@ -64,14 +64,15 @@ def load_dotenv():
 load_dotenv()
 
 # ---------------------------------------------------------------------------
-# Brand palette (mirrors the Mermaid semantic palette in CLAUDE.md).
+# Brand palette — matches the site's Congo accent (--color-primary-* = violet),
+# so shared cards read as the same brand as the site.
 # ---------------------------------------------------------------------------
 W, H = 1200, 630
 MARGIN = 80
 BG_TOP = (15, 23, 42)        # slate-900  #0f172a
-BG_BOTTOM = (12, 51, 46)     # deep teal
-ACCENT = (16, 185, 129)      # emerald-500 #10b981
-ACCENT_SOFT = (52, 211, 153)  # emerald-400
+BG_BOTTOM = (46, 16, 101)    # violet-950 #2e1065
+ACCENT = (124, 58, 237)      # violet-600 #7c3aed (site --color-primary-600)
+ACCENT_SOFT = (167, 139, 250)  # violet-400 #a78bfa
 TEXT = (255, 255, 255)
 MUTED = (148, 163, 184)      # slate-400
 CHIP_BG = (30, 41, 59)       # slate-800
