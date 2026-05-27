@@ -1,9 +1,9 @@
 name: Publish to GitHub Pages Repo
 
-# DISABLED 2026-04-30: site migrated to Cloudflare (custom domain ssudake.com
-# bound to the Workers project). This workflow no longer drives production —
-# kept temporarily for reference and will be deleted once we are confident
-# we won't need to fall back to GitHub Pages.
+# DISABLED 2026-04-30: site migrated to Cloudflare. The custom domain
+# ssudake.com is now bound to the Workers project, so this workflow no longer
+# drives production. Kept temporarily for reference and will be deleted once we
+# are confident we won't need to fall back to GitHub Pages.
 #
 # Original trigger:
 #   on:

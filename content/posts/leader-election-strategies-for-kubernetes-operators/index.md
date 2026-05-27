@@ -18,11 +18,11 @@ This post is a tour of the three coordination strategies we built around the Kub
 
 We will start with the failure modes that scaling forces you to think about, look at why a single shared primitive (the Kubernetes Lease) is enough to express three very different coordination patterns, and finish with a hands-on walkthrough.
 
-## When one operator replica fails short
+## When one operator replica falls short
 
 Picture an operator that reconciles a few hundred CRs by calling a slow external API.
 One replica works fine in dev.
-In production, reconciles back up, the queue grows, and the latency SLO slips.
+In production, reconciliations back up, the queue grows, and the latency SLO slips.
 The instinctive fix, `kubectl scale --replicas=3`, makes things dramatically worse: now three replicas race on the same CRs, fight over Status updates, and triple the load on the external API.
 
 {{< mermaid >}}
@@ -244,7 +244,6 @@ Only the lease expiry and renew loop running everywhere, all the time.
 The reconcile work itself has to be split across replicas.
 Pick `N` based on how much parallelism you expect, not how many pods you currently run; the M-vs-N table above tells you how the system behaves in any configuration.
 
-<!-- REVIEW: this section is the shortest. Worth a concrete real-world example (e.g. Redis sentinel, Kafka brokers, etcd-operator) to ground "stable identity matters"? -->
 ## Strategy 3: StatefulSet identity (when ordinals matter)
 
 Sharding handles "split work across replicas."
@@ -282,7 +281,6 @@ If the leader pod dies, the StatefulSet recreates a pod with the *same* name; on
 **When to use StatefulSet identity:** you need stable identity.
 Your workload's correctness depends on a particular replica being recoverable as itself, not just on *some* replica being active.
 
-<!-- REVIEW: do you want screenshots of the kubectl logs output here, or keep it command-only and let readers run it? -->
 ## Hands-on: a brief Kind walkthrough
 
 The full Makefile has individual targets for each strategy, but the four-step path covers everything:
@@ -313,7 +311,6 @@ To clean everything up:
 make kind-cleanup
 ```
 
-<!-- REVIEW: is the table sufficient, or do you want a flowchart (start → "do you need parallelism?" → ...) for picking? -->
 ## Picking a strategy
 
 Three strategies, three forces.
