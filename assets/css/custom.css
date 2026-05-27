@@ -437,3 +437,26 @@
     padding-top: 1rem;
   }
 }
+
+/* ── Long-form reading polish ────────────────────────────── */
+/* Bump the article body to ~18px for comfortable long-form reading. Scope to
+   the content column so the table-of-contents stays compact; the max-w-prose
+   cap then keeps the measure around an ideal ~65 characters. */
+.prose .max-w-prose {
+  font-size: 1.125rem;
+}
+
+/* In-text links carry the brand accent (violet) rather than dim neutral —
+   in dark mode they were lighter-weight than the body text, hurting scannability. */
+.prose a {
+  color: rgba(var(--color-primary-600), 1);
+}
+
+.dark .prose a {
+  color: rgba(var(--color-primary-400), 1);
+}
+
+/* Soften pure-white prose text in dark mode to cut glare; headings stay bright. */
+.dark .prose {
+  --tw-prose-invert-body: rgba(var(--color-neutral-200), 1);
+}

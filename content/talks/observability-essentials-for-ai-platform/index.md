@@ -7,7 +7,7 @@ gallery:
   - "grafana-community-day-1.jpeg"
   - "grafana-community-day-2.jpeg"
   - "grafana-community-day.jpeg"
-summary: "As you build out your AI platform, performance and latency are critical factors. In this talk, we briefly talk how general AI platform and AI applications observability."
+summary: "Performance and latency make or break an AI platform — the observability essentials for the platform and the applications running on it."
 ---
 
 {{< slideshare key="NG5zHyIvm7Cdtn" >}}

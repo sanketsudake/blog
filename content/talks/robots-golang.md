@@ -2,6 +2,7 @@
 title: "Playing with Robots in Golang"
 date: 2018-02-25
 slug: robots-golang
+images: ["og/talks/robots-golang.png"]
 event: "GopherCon India 2018"
 summary: "A hack built with Ollie, Alexa, and Raspberry Pi — controlling robots with Go and voice commands."
 ---

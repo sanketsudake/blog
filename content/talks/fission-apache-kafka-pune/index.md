@@ -9,7 +9,7 @@ gallery:
   - "fission-kafka-3.jpeg"
   - "fission-kafka-4.jpeg"
   - "fission-apacha-kafka-meetup.jpeg"
-summary: "This talk covers how to build event-driven serverless applications using Fission and Apache Kafka, demonstrating the integration and benefits of using these technologies together."
+summary: "How to build event-driven serverless applications with Fission and Apache Kafka — the integration patterns and why the combination works well."
 ---
 
 {{< slideshare key="p1lrqhGpyFutGB" >}}

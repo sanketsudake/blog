@@ -1,5 +1,10 @@
 title = "Sanket Sudake"
 
+# Drives the twitter:site meta tag (Hugo embedded twitter_cards reads
+# params.social.twitter — distinct from the author links below).
+[params.social]
+twitter = "SanketSudake"
+
 [params.author]
 name = "Sanket Sudake"
 image = "images/sanket_sudake.jpg"
