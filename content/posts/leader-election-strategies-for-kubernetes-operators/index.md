@@ -3,7 +3,7 @@ title = "Leader Election Strategies for Scaling Kubernetes Operators"
 date = 2026-04-25T10:00:00+05:30
 tags = ["kubernetes", "operators", "leader-election", "controller-runtime", "go"]
 categories = []
-summary = "Why scaling Kubernetes operators requires coordination between replicas, and three lease-based leader-election strategies (Active-Passive, Dynamic Sharding, StatefulSet identity) that solve the three problems horizontal scale creates."
+summary = "Why scaling Kubernetes operators needs coordination between replicas — and three lease-based leader-election strategies that fix what horizontal scale breaks."
 showTableOfContents = true
 +++
 
