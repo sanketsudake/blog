@@ -3,6 +3,17 @@ public/
 resources/
 .hugo_build.lock
 *.pyc
+__pycache__/
+
+# python tooling venv (scripts/)
+.venv/
+
+# Generated analytics snapshots may contain traffic / search-query data and are
+# regenerable; keep them local. The audit reports (docs/audit/) are derived only
+# from the public site structure, so those stay tracked.
+docs/analytics/*.md
+docs/analytics/*.json
+!docs/analytics/SETUP.md
 
 # wrangler files
 .dev.vars*
