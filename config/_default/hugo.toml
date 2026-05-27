@@ -1,6 +1,15 @@
 baseURL = "https://ssudake.com/"
 languageCode = "en"
 
+# Emit a robots.txt from layouts/robots.txt (points crawlers at the sitemap).
+enableRobotsTXT = true
+
+# JSON output on the home page is the Fuse.js search index Congo's search box
+# reads (enableSearch in params.toml). Hugo's built-in output defaults don't
+# inherit the theme's, so declare it here.
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
 # Google Analytics is intentionally NOT configured here. It is gated to
 # production deployments only via config/production/hugo.toml, which is
 # loaded when the build runs with `hugo -e production` (see
