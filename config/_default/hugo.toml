@@ -23,6 +23,9 @@ enableRobotsTXT = true
 # /llms-full.txt (LLM-friendly content map + full post bodies) — see below.
 [outputs]
   home = ["HTML", "RSS", "JSON", "llms", "llmsfull"]
+  # Every content page also emits a clean markdown twin at <url>/index.md for
+  # LLMs/agents that fetch a single page (rendered by layouts/_default/single.markdown.md).
+  page = ["HTML", "markdown"]
 
 # Dedicated media type so both LLM output formats render with a .txt extension
 # (markdown's own media type would force .md). The two output formats share it,
@@ -41,6 +44,14 @@ enableRobotsTXT = true
   [outputFormats.llmsfull]
     mediaType = "text/llms"
     baseName = "llms-full"
+    isPlainText = true
+    rel = "alternate"
+  # Per-page markdown twin. Uses Hugo's built-in text/markdown media type (.md);
+  # baseName "index" yields <page-dir>/index.md. rel="alternate" makes head.html
+  # advertise it on each page.
+  [outputFormats.markdown]
+    mediaType = "text/markdown"
+    baseName = "index"
     isPlainText = true
     rel = "alternate"
 
