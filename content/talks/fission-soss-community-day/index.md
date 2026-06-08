@@ -1,5 +1,5 @@
 ---
-title: "How We Adopted Secure Software Delivery Practices for Fission OSS Serverless Platform"
+title: "Secure Software Delivery for Fission OSS"
 date: 2024-12-10
 slug: fission-foss-community-day
 event: "SOSS Day India 2024, Foss Day 2025"

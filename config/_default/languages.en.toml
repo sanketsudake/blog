@@ -8,8 +8,10 @@ twitter = "SanketSudake"
 [params.author]
 name = "Sanket Sudake"
 image = "images/sanket_sudake.jpg"
-headline = "Sanket Sudake's personal website"
-bio = "Distributed Systems & Infrastructure tech enthusiast"
+headline = "Distributed systems, Kubernetes & AI infrastructure"
+# Rendered with markdownify on the homepage profile card AND in the article-end
+# byline card, so it reads as a credential line, not a tagline.
+bio = "Principal Engineer at Improving. I build and write about Kubernetes, distributed systems, and AI infrastructure — and maintain the [Fission](https://fission.io) serverless platform."
 links = [
   { x-twitter = "https://twitter.com/SanketSudake" },
   { github = "https://github.com/sanketsudake" },

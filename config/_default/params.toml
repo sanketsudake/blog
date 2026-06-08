@@ -1,5 +1,10 @@
 colorScheme = "congo"
 
+# Homepage / fallback meta description. head.html falls back to this on the
+# home page (which has no frontmatter summary), so it also drives the WebSite
+# JSON-LD description and the homepage OG description.
+description = "Sanket Sudake — engineering notes on distributed systems, Kubernetes, platform engineering and AI infrastructure, plus talks and slides."
+
 # Discoverability / UX
 enableSearch = true
 enableImageLazyLoading = true
@@ -15,10 +20,16 @@ images = ["og/default.png"]
 # Homepage profile layout, with recent posts surfaced beneath the bio.
 homepage.layout = "profile"
 homepage.showRecent = true
-homepage.recentLimit = 5
+homepage.recentLimit = 6
 
 # Per-post share buttons (valid options are defined by the Congo theme).
 article.sharingLinks = ["linkedin", "x-twitter", "bluesky", "reddit", "email"]
+
+# Reading-experience / navigation aids (all Congo-native params).
+article.showBreadcrumbs = true   # orientation on deep post URLs (independent of BreadcrumbList JSON-LD)
+article.showWordCount = true     # reading time is already shown; add word count
+article.showTaxonomies = true    # show each post's tags inline, linking to /tags/ term pages
+list.showBreadcrumbs = true      # crumbs on taxonomy/term/list pages too
 
 footer.showThemeAttribution = false
 footer.showAppearanceSwitcher = true

@@ -147,5 +147,4 @@ You may need to add extra instances of CoreDNS or configure HPA (Horizontal Pod 
 This blog post tries to highlight the importance of the DNS request cycle in Kubernetes, and many times you would end up in a situation where you start with "it's not DNS" but end up "it's always DNS !".
 So be careful of these landmines.
 
-Enjoyed the article?
-Let's start a conversation on [Twitter](https://twitter.com/sanketsudake) and share your "It's always DNS" stories and how it was resolved.
+We'd love to hear your thoughts on this post — start a conversation on [LinkedIn](https://www.linkedin.com/in/sanketsudake/).

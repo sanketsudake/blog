@@ -1,14 +1,48 @@
 baseURL = "https://ssudake.com/"
 languageCode = "en"
 
+# Drives the related-posts block (layouts/_partials/related.html). Relatedness
+# is dominated by shared tags, lightly broken by recency.
+[related]
+  threshold = 80
+  includeNewer = true
+  toLower = true
+  [[related.indices]]
+    name = "tags"
+    weight = 100
+  [[related.indices]]
+    name = "date"
+    weight = 10
+
 # Emit a robots.txt from layouts/robots.txt (points crawlers at the sitemap).
 enableRobotsTXT = true
 
 # JSON output on the home page is the Fuse.js search index Congo's search box
 # reads (enableSearch in params.toml). Hugo's built-in output defaults don't
-# inherit the theme's, so declare it here.
+# inherit the theme's, so declare it here. llms / llmsfull emit /llms.txt and
+# /llms-full.txt (LLM-friendly content map + full post bodies) — see below.
 [outputs]
-  home = ["HTML", "RSS", "JSON"]
+  home = ["HTML", "RSS", "JSON", "llms", "llmsfull"]
+
+# Dedicated media type so both LLM output formats render with a .txt extension
+# (markdown's own media type would force .md). The two output formats share it,
+# differentiated by baseName.
+[mediaTypes]
+  [mediaTypes."text/llms"]
+    suffixes = ["txt"]
+    delimiter = "."
+
+[outputFormats]
+  [outputFormats.llms]
+    mediaType = "text/llms"
+    baseName = "llms"
+    isPlainText = true       # do not HTML-escape the markdown body
+    rel = "alternate"        # head.html auto-emits a <link rel="alternate"> for it
+  [outputFormats.llmsfull]
+    mediaType = "text/llms"
+    baseName = "llms-full"
+    isPlainText = true
+    rel = "alternate"
 
 # Google Analytics is intentionally NOT configured here. It is gated to
 # production deployments only via config/production/hugo.toml, which is

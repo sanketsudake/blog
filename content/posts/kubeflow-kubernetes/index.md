@@ -80,3 +80,5 @@ But applying machine learning research requires a good understanding of infrastr
 Kubeflow bridges this gap by making infrastructure easy and scalable without knowing all details.
 The approach taken by Kubeflow of using existing abstractions of Kubernetes and extending it with the additional layer is really promising.
 There are also alternatives to Kubeflow like RiseML, [PolyAxon](https://polyaxon.com/docs/) which can be used on Kubernetes, but that's probably for another blog post.
+
+We'd love to hear your thoughts on this post — start a conversation on [LinkedIn](https://www.linkedin.com/in/sanketsudake/).

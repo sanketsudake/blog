@@ -1,0 +1,115 @@
+{{- /* OVERRIDE of congo v2.13.0 layouts/_partials/schema.html.
+       Changes vs. upstream are confined to the `.IsPage` Article block:
+         - @type is BlogPosting for posts (Article for talks/other)
+         - adds an absolute `image` (feature.png for post bundles, images[] for talks, site fallback)
+         - adds a `publisher` (Person)
+         - mainEntityOfPage is a proper WebPage @id, not the string "true"
+       The IsHome WebSite block and the BreadcrumbList block are kept byte-identical
+       to upstream — re-diff this file against the module on every `hugo mod get -u`.
+       See CLAUDE.md "Theme overrides to re-diff on Congo upgrade". */ -}}
+{{- define "partials/inline/breadcrumbData" -}}
+  {{- $scratchCtx := .scratch -}}
+  {{- with .parent }}
+    {{ partial "inline/breadcrumbData" (dict "scratch" $scratchCtx "parent" .Parent) }}
+    {{- $scratchCtx.Add "listItem" (slice (dict
+      "@type" "ListItem"
+      "position" ($scratchCtx.Get "count")
+      "name" (.Title | humanize | title)
+      "item" .Permalink
+    )) -}}
+    {{- $scratchCtx.Add "count" 1 -}}
+  {{- end }}
+{{- end -}}
+
+{{ if .IsHome -}}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "{{ (site.GetPage "/").Permalink | safeURL }}",
+    "name": "{{ .Site.Title | safeJS }}",
+    {{ with .Site.Params.description }}"description": "{{ . | safeJS }}",{{ end }}
+    {{ with .Site.LanguageCode }}"inLanguage": "{{ . }}",{{ end }}
+    "url": "{{ (site.GetPage "/").Permalink | safeURL }}",
+    {{ with .Site.Params.keywords }}"keywords": {{ . }},{{ end }}
+    "publisher" : {
+      "@type": "Person",
+      "name": "{{ .Site.Language.Params.Author.name | safeJS }}"
+    }
+  }
+  </script>
+{{ else if .IsPage }}
+  {{- $iso8601 := "2006-01-02T15:04:05-07:00" -}}
+  {{- /* Resolve an absolute social/feature image, mirroring Hugo's opengraph lookup:
+         talk frontmatter images[] first, then a post bundle *feature* resource, then the site fallback. */ -}}
+  {{- $img := "" -}}
+  {{- with .Params.images -}}{{- $img = (index . 0) | absURL -}}{{- end -}}
+  {{- if not $img -}}{{- with .Resources.GetMatch "*feature*" -}}{{- $img = .Permalink -}}{{- end -}}{{- end -}}
+  {{- if not $img -}}{{- with site.Params.images -}}{{- $img = (index . 0) | absURL -}}{{- end -}}{{- end -}}
+  {{- $authorImg := "" -}}
+  {{- with resources.Get site.Language.Params.Author.image -}}{{- $authorImg = .Permalink -}}{{- end -}}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "{{ if eq .Section "posts" }}BlogPosting{{ else }}Article{{ end }}",
+    "articleSection": "{{ (site.GetPage .Section).Title | safeJS }}",
+    "name": "{{ .Title | safeJS }}",
+    "headline": "{{ .Title | safeJS }}",
+    {{ with .Description }}"description": "{{ . | safeJS }}",{{ end }}
+    {{ with .Summary }}"abstract": "{{ . | safeJS }}",{{ end }}
+    {{ with $img }}"image": "{{ . }}",{{ end }}
+    {{ with .Site.LanguageCode }}"inLanguage": "{{ . }}",{{ end }}
+    "url" : "{{ .Permalink }}",
+    "author" : {
+      "@type": "Person",
+      "name": "{{ .Site.Language.Params.Author.name | safeJS }}"
+    },
+    "publisher" : {
+      "@type": "Person",
+      "name": "{{ .Site.Language.Params.Author.name | safeJS }}"{{ with $authorImg }},
+      "image": "{{ . }}"{{ end }}
+    },
+    {{ with .PublishDate }}"copyrightYear": "{{ .Format "2006" }}",{{ end }}
+    {{ with .Date }}"dateCreated": "{{ .Format $iso8601 }}",{{ end }}
+    {{ with .PublishDate }}"datePublished": "{{ .Format $iso8601 }}",{{ end }}
+    {{ with .ExpiryDate }}"expires": "{{ .Format $iso8601 }}",{{ end }}
+    {{ with .Lastmod }}"dateModified": "{{ .Format $iso8601 }}",{{ end }}
+    {{ if .Keywords }}
+    {{ with .Keywords }}"keywords": {{ . }},{{ end }}
+    {{ else }}
+    {{ with .Params.tags }}"keywords": {{ . }},{{ end }}
+    {{ end }}
+    "mainEntityOfPage": { "@type": "WebPage", "@id": "{{ .Permalink }}" },
+    "wordCount": "{{ .WordCount }}"
+  }
+  </script>
+  {{- /* Source: https://bullaki.com/projects/web-design/seo-with-hugo-5-breadcrumbs/ */}}
+  {{- $scratch := newScratch -}}
+  {{- $scratch.Set "count" 1 -}}
+  {{ partial "inline/breadcrumbData" (dict "scratch" $scratch "parent" .Parent) }}
+
+  {{- with index (.GetTerms "categories") 0 -}}
+    {{- $scratch.Add "listItem" (slice (dict
+      "@type" "ListItem"
+      "position" ($scratch.Get "count")
+      "name" .LinkTitle
+      "item" .Permalink
+    )) -}}
+    {{- $scratch.Add "count" 1 -}}
+  {{- end }}
+
+
+  {{- $scratch.Add "listItem" (slice (dict
+    "@type" "ListItem"
+    "position" ($scratch.Get "count")
+    "name" (.Title | humanize | title)
+  )) -}}
+
+  {{- $scratch.SetInMap "breadcrumb" "@context" "https://schema.org" -}}
+  {{- $scratch.SetInMap "breadcrumb" "@type" "BreadcrumbList" -}}
+  {{- $scratch.SetInMap "breadcrumb" "itemListElement" ($scratch.Get "listItem") -}}
+
+  <script type="application/ld+json">
+    {{ $scratch.Get "breadcrumb" | jsonify (dict "prefix" " " "indent" "  ") | safeJS }}
+  </script>
+{{- end }}
