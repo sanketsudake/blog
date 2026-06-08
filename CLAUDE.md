@@ -10,6 +10,14 @@ The Congo theme is consumed as a Hugo Module via `go.mod` (`github.com/jpanther/
 Hugo is pinned in CI to `0.157.0` and Go to `1.26.1` (`.github/workflows/publish.yml`).
 Match those locally if a build behaves oddly.
 
+### Theme overrides to re-diff on Congo upgrade
+
+Most of `layouts/` is upgrade-safe (custom talks layouts, shortcodes, robots.txt, llms.txt templates, and an `rss.xml` that overrides Hugo's *embedded* template, not a Congo one).
+But two files copy a **Congo module partial/layout** and patch it — after any `hugo mod get -u`, re-diff each against the new module version (`~/Library/Caches/hugo_cache/modules/.../jpanther/congo/v2@<ver>/layouts/`) and re-apply the change:
+
+- `layouts/_partials/schema.html` — adds `image`, `BlogPosting` type, `publisher`, and a URL-form `mainEntityOfPage` to the Article JSON-LD. Only the `.IsPage` block differs from upstream.
+- `layouts/single.html` — identical to upstream except one added line in the footer: `{{ partial "related.html" . }}` (related posts, driven by the `[related]` config in `hugo.toml` and `layouts/_partials/related.html`).
+
 ## Build, serve, deploy
 
 ```bash
@@ -171,6 +179,12 @@ When adding a post or talk, regenerate its card: `.venv/bin/python scripts/gen-o
 Manual background workflow (no API billing): `--print-prompts` emits a per-item prompt to paste into the Gemini app, then drop the downloaded PNGs named `<slug>.png` into a folder and run `--bg-dir <folder>`.
 The `feature.png` is a social card only — `content/posts/_index.md` has a `[cascade] feature = "no-onpage-feature"` so Congo does **not** render it as an on-page hero (it would just repeat the title); `og:image` is unaffected.
 If you change a post/talk **title or tags**, regenerate its card so the text matches.
+
+**LLM-friendliness.**
+`robots.txt` (`layouts/robots.txt`) explicitly allows the major AI crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, …).
+`/llms.txt` and `/llms-full.txt` are **generated** from content via the `llms`/`llmsfull` output formats (`config/_default/hugo.toml`) and the `layouts/index.llms*.txt` templates — they stay in sync as content is added, so don't hand-edit `public/`.
+`llms.txt` is a link index (posts + talks, with canonical URLs for syndicated posts); `llms-full.txt` inlines full post bodies (posts only).
+Every content page also emits a **markdown twin** at `<url>/index.md` (the `markdown` output format on `page` + `layouts/_default/single.markdown.md`), advertised via `rel="alternate"` — clean markdown (raw body, Mermaid/shortcode source intact) for agents that fetch a single page.
 
 **Audit & the improvement loop.**
 `scripts/site-audit.py` crawls the built `public/` and flags SEO/UX issues (`docs/audit/<date>.md`; `--check` exits non-zero on errors) — run it after `hugo`, it should report 0 errors.

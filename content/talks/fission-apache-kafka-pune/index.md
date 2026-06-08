@@ -1,5 +1,5 @@
 ---
-title: "Building Event-Driven Serverless Applications with Fission and Kafka"
+title: "Event-Driven Serverless with Fission & Kafka"
 date: 2026-01-31
 slug: fission-apache-kafka-pune
 event: "Apache Kafka® Meetup Pune - Jan 2026"

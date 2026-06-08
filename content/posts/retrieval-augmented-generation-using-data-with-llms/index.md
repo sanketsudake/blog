@@ -226,7 +226,7 @@ RAG enables more accurate and contextually relevant responses, making it particu
 As advancements in GenAI technology continue, we can expect RAG to play an increasingly important role in enabling more intelligent and context-aware interactions with data.
 
 We hope you found this post informative and engaging.
-We'd love to hear your thoughts on this post, so do start a conversation on [LinkedIn](https://www.linkedin.com/in/sanketsudake/) :)
+We'd love to hear your thoughts on this post — start a conversation on [LinkedIn](https://www.linkedin.com/in/sanketsudake/).
 
 ## References
 

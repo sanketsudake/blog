@@ -1,0 +1,15 @@
+{{- /* Related posts — driven by the [related] config in config/_default/hugo.toml.
+       Posts only; renders nothing when there are no related posts. Reuses Congo's
+       article-link.html so the cards match the blog list. */ -}}
+{{ if eq .Section "posts" }}
+  {{ $related := first 3 (where (.Site.RegularPages.Related .) "Section" "posts") }}
+  {{ with $related }}
+    <div class="pt-3">
+      <hr class="border-dotted border-neutral-300 dark:border-neutral-600" />
+      <h2 class="mt-6 text-2xl font-bold text-neutral-700 dark:text-neutral-300">Related posts</h2>
+      {{ range . }}
+        {{ partial "article-link.html" . }}
+      {{ end }}
+    </div>
+  {{ end }}
+{{ end }}

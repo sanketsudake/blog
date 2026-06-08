@@ -1,4 +1,24 @@
+# AI / LLM crawlers — explicitly allowed for reach and citation.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
 User-agent: *
 Allow: /
 
+# LLM-friendly content map: {{ "llms.txt" | absURL }}
 Sitemap: {{ "sitemap.xml" | absURL }}

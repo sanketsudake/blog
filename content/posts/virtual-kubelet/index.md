@@ -132,3 +132,5 @@ Despite the shortcomings at this stage, virtual kubelet is a great project with 
 Container services are just the beginning and a lot more can be integrated in near future.
 This is the new age hybrid is exciting but more importantly valuable.
 You can [deploy microservices](https://www.infracloud.io/monolith-microservices-modernization/), functions, batch jobs while still keeping efficiency as close to 100% as possible.
+
+We'd love to hear your thoughts on this post — start a conversation on [LinkedIn](https://www.linkedin.com/in/sanketsudake/).

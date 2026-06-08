@@ -1,5 +1,5 @@
 ---
-title: "Virtual Kubelet"
+title: "Intro to Virtual Kubelet"
 date: 2018-06-01
 slug: virtual-kubelet
 images: ["og/talks/virtual-kubelet.png"]
