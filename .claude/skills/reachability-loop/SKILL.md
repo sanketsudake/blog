@@ -9,15 +9,18 @@ A repeatable, on-demand cycle: **measure → synthesize → propose → implemen
 Run it roughly monthly (Search Console lags ~3 days and trends need weeks).
 
 All commands run from the repo root.
-Use the tooling venv: `.venv/bin/python`.
+
+## Blog specifics (pass these to the generic skills)
+
+- brand `ssudake.com`, author `Sanket Sudake`, subtitle `Distributed Systems · Infrastructure · AI Infra`
+- sections `posts,talks`; site suffix ` | Sanket Sudake`
+- GSC site `https://ssudake.com/`, GA4 property from `.env`
+- Conventions: TOML posts / YAML talks, `showTableOfContents = true`, `categories = []`, `canonicalURL` + attribution on cross-posts, one sentence per line.
 
 ## 1. Measure
 
-```bash
-hugo --logLevel error                          # rebuild public/
-.venv/bin/python scripts/site-audit.py         # -> docs/audit/<date>.md  (structural)
-.venv/bin/python scripts/analytics-report.py   # -> docs/analytics/<date>.{md,json}  (behaviour + search)
-```
+Rebuild (`hugo --logLevel error`), then run the `audit-static-site` skill's script with the blog flags (`--public public --site-suffix ' | Sanket Sudake' --sections posts,talks`), and the `report-site-analytics` skill's script (`--site https://ssudake.com/ --property <from .env>`).
+Audit is always available; analytics may be unavailable — continue audit-only if so.
 
 - The **audit** is always available (pure structure).
   Read the new `docs/audit/<date>.md`.
@@ -54,10 +57,10 @@ Present the ranked list to the user and get approval before editing.
 - Posts use **TOML** frontmatter, talks use **YAML** — preserve the split.
 - Keep `showTableOfContents = true`; `categories = []`.
 - Cross-posted posts keep `canonicalURL` **and** the attribution blockquote; original posts omit both.
-- After prose edits run `.venv/bin/python scripts/md-one-sentence-per-line.py <file>` (or `python3`).
-- If you change a post/talk **title or tags**, regenerate its social image: `.venv/bin/python scripts/gen-og-image.py <path-to-index.md-or-file>` (the embedded Hugo templates pick up `feature.png` / `static/og/...` automatically — see the OG-image notes in the plan).
-- Mermaid diagrams use the semantic palette in `CLAUDE.md`.
-- Re-run `scripts/site-audit.py --check` after edits; it must report **0 errors**.
+- After prose edits run `python3 scripts/md-one-sentence-per-line.py <file>`.
+- If you change a post/talk **title or tags**, regenerate its social image via the `generate-og-images` skill (`--brand ssudake.com --author 'Sanket Sudake'`) — the embedded Hugo templates pick up `feature.png` / `static/og/...` automatically.
+- Mermaid diagrams use the semantic palette in the `author-mermaid-diagram` skill.
+- Re-run the `audit-static-site` script with `--check`; it must report **0 errors**.
 
 ## 5. Log the cycle
 
