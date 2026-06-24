@@ -15,7 +15,8 @@ Match those locally if a build behaves oddly.
 Most of `layouts/` is upgrade-safe (custom talks layouts, shortcodes, robots.txt, llms.txt templates, and an `rss.xml` that overrides Hugo's *embedded* template, not a Congo one).
 But two files copy a **Congo module partial/layout** and patch it — after any `hugo mod get -u`, re-diff each against the new module version (`~/Library/Caches/hugo_cache/modules/.../jpanther/congo/v2@<ver>/layouts/`) and re-apply the change:
 
-- `layouts/_partials/schema.html` — adds `image`, `BlogPosting` type, `publisher`, and a URL-form `mainEntityOfPage` to the Article JSON-LD. Only the `.IsPage` block differs from upstream.
+- `layouts/_partials/schema.html` — adds `image`, `BlogPosting` type, `publisher`, and a URL-form `mainEntityOfPage` to the Article JSON-LD.
+  Only the `.IsPage` block differs from upstream.
 - `layouts/single.html` — identical to upstream except one added line in the footer: `{{ partial "related.html" . }}` (related posts, driven by the `[related]` config in `hugo.toml` and `layouts/_partials/related.html`).
 
 ## Build, serve, deploy
@@ -88,45 +89,8 @@ Prefer Mermaid over committed image assets when a diagram is structural (flow, s
 
 ### Mermaid theme — color nodes by semantic role
 
-Congo's default Mermaid theme renders every node in the same primary color, which is fine for a one-node decision tree but hides meaning in flow / sequence diagrams.
-We apply a small **semantic palette** via Mermaid's `classDef` so that role (leader, standby, lease, etc.) reads at a glance, in both light and dark mode.
-
-Pick from this palette — Tailwind 400/500-level mid-tones with white text, chosen for contrast on either background:
-
-| Class      | Use for                                            | Fill      | Stroke    |
-|------------|----------------------------------------------------|-----------|-----------|
-| `leader`   | Active / primary actor (the one doing the work)    | `#10b981` | `#047857` |
-| `standby`  | Passive / waiting (failover candidate, hot spare)  | `#94a3b8` | `#475569` |
-| `lease`    | Coordination primitive (Lease, bucket, lock)       | `#f59e0b` | `#b45309` |
-| `resource` | Resource being acted on (CR, DB row, target state) | `#fb7185` | `#be123c` |
-| `external` | External system (API, gateway, third-party)        | `#64748b` | `#334155` |
-| `process`  | Logic / decision step / generic action             | `#38bdf8` | `#0369a1` |
-| `pod`      | Workload pod *when in conflict / uncoordinated*    | `#fb7185` | `#be123c` |
-
-All classes use `color:#fff` for the label.
-Only declare and apply the classes a given diagram needs — don't paste the whole palette into every block.
-Once you class one node in a diagram, class **every** node — mixing classed nodes (white text) and unclassed nodes (Congo's neutral text) looks broken.
-
-Append the `classDef` lines and the `class` lines at the bottom of the diagram body, before the closing shortcode:
-
-```text
-{{< mermaid >}}
-flowchart TD
-    A[Pod starts] --> B[Compete for Lease]
-    B -->|won| C[Leader]
-    B -->|lost| D[Standby]
-    classDef process fill:#38bdf8,stroke:#0369a1,color:#fff
-    classDef lease fill:#f59e0b,stroke:#b45309,color:#fff
-    classDef leader fill:#10b981,stroke:#047857,color:#fff
-    classDef standby fill:#94a3b8,stroke:#475569,color:#fff
-    class A process
-    class B lease
-    class C leader
-    class D standby
-{{< /mermaid >}}
-```
-
-Inside a `subgraph`, place the `classDef` / `class` lines **after** the matching `end`, not inside the subgraph body.
+Use the semantic `classDef` palette and rules in the `author-mermaid-diagram` skill — color nodes by role (leader, lease, resource, …) so flow/sequence diagrams read at a glance.
+Class every node once you class one.
 
 Keep code snippets in posts minimal — the existing pattern is "one canonical snippet to anchor the idea, then link to the repo for the full implementation."
 Don't paste large Go files inline.
@@ -167,29 +131,16 @@ For a new post, create the spec in that directory before touching `content/posts
 
 ## Social images & reachability tooling
 
-Python tooling lives in `scripts/` and runs from the gitignored `.venv/` (`python3 -m venv .venv && .venv/bin/pip install Pillow google-genai google-analytics-data google-api-python-client google-auth`).
-Secrets go in a gitignored `.env` (template: `.env.example`) — never commit it.
+Python tooling runs from the gitignored `.venv/`; secrets in a gitignored `.env` (template `.env.example`) — never commit it.
 
-**Social-share images.**
-Hugo's embedded `opengraph`/`twitter_cards` templates resolve `og:image` from frontmatter `images`, then a bundle resource matching `*feature*`, then site-level `params.images`; the Twitter card auto-upgrades to `summary_large_image` once any image exists.
-So every page gets a card: posts/talk-bundles ship a `feature.png`, flat talks set `images = ["og/talks/<slug>.png"]` (file under `static/og/talks/`), and `static/og/default.png` (set in `params.images`) covers everything else.
-Generate them with `scripts/gen-og-image.py` — a branded 1200×630 card with the title/tags/brand overlaid by Pillow over a Nano Banana (`GEMINI_API_KEY`, paid tier), `--bg`, or gradient-fallback background.
-
-When adding a post or talk, regenerate its card: `.venv/bin/python scripts/gen-og-image.py <path-to-index.md-or-flat.md>` (or `--all-content` for everything; `--default` for the site card).
-Manual background workflow (no API billing): `--print-prompts` emits a per-item prompt to paste into the Gemini app, then drop the downloaded PNGs named `<slug>.png` into a folder and run `--bg-dir <folder>`.
-The `feature.png` is a social card only — `content/posts/_index.md` has a `[cascade] feature = "no-onpage-feature"` so Congo does **not** render it as an on-page hero (it would just repeat the title); `og:image` is unaffected.
-If you change a post/talk **title or tags**, regenerate its card so the text matches.
-
-**LLM-friendliness.**
-`robots.txt` (`layouts/robots.txt`) explicitly allows the major AI crawlers (GPTBot, ClaudeBot, PerplexityBot, Google-Extended, …).
-`/llms.txt` and `/llms-full.txt` are **generated** from content via the `llms`/`llmsfull` output formats (`config/_default/hugo.toml`) and the `layouts/index.llms*.txt` templates — they stay in sync as content is added, so don't hand-edit `public/`.
-`llms.txt` is a link index (posts + talks, with canonical URLs for syndicated posts); `llms-full.txt` inlines full post bodies (posts only).
-Every content page also emits a **markdown twin** at `<url>/index.md` (the `markdown` output format on `page` + `layouts/_default/single.markdown.md`), advertised via `rel="alternate"` — clean markdown (raw body, Mermaid/shortcode source intact) for agents that fetch a single page.
-
-**Audit & the improvement loop.**
-`scripts/site-audit.py` crawls the built `public/` and flags SEO/UX issues (`docs/audit/<date>.md`; `--check` exits non-zero on errors) — run it after `hugo`, it should report 0 errors.
-`scripts/analytics-report.py` pulls GA4 + Search Console (setup in `docs/analytics/SETUP.md`; reports are gitignored).
-The on-demand `reachability-loop` skill (`.claude/skills/reachability-loop/`) ties these into a measure → prioritize → fix → log cycle; cycle logs live in `docs/reachability/`.
+- **Social cards:** generate with the `generate-og-images` skill (`--brand ssudake.com --author "Sanket Sudake"`).
+  Posts/talk-bundles ship a `feature.png`; flat talks set `images = ["og/talks/<slug>.png"]`; `static/og/default.png` is the site default.
+  `content/posts/_index.md` sets `[cascade] feature = "no-onpage-feature"` so the card is social-only, not an on-page hero.
+  Regenerate when a title or tags change.
+- **LLM-friendliness:** `/llms.txt`, `/llms-full.txt`, and per-page markdown twins are generated via Hugo output formats — see the `add-llms-txt` skill.
+  `robots.txt` allows the major AI crawlers.
+  Don't hand-edit `public/`.
+- **Audit & loop:** run the `audit-static-site` skill against `public/` (must report 0 errors); the on-demand `reachability-loop` skill ties audit + `report-site-analytics` into a measure→fix→log cycle (`docs/reachability/`).
 
 ## AGENTS.md
 

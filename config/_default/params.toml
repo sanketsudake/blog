@@ -14,7 +14,7 @@ mainSections = ["posts"]
 # Site-wide social-share fallback image (1200x630). Per-post bundles override
 # this with their own feature.png; Hugo's embedded opengraph/twitter_cards
 # templates pick the first available, so this only applies to pages without one
-# (homepage, list pages, about). Regenerate with scripts/gen-og-image.py --default.
+# (homepage, list pages, about). Regenerate with the generate-og-images skill (--default).
 images = ["og/default.png"]
 
 # Homepage profile layout, with recent posts surfaced beneath the bio.

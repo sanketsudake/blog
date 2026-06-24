@@ -1,6 +1,6 @@
 # Analytics access setup (GA4 + Search Console)
 
-One-time setup so `scripts/analytics-report.py` can pull GA4 behaviour and Search Console search data.
+One-time setup so the `report-site-analytics` skill can pull GA4 behaviour and Search Console search data.
 The generated reports (`docs/analytics/<date>.{md,json}`) are gitignored — they may contain traffic and query data and are regenerable.
 
 ## 1. Enable the APIs
@@ -35,7 +35,7 @@ gcloud auth application-default set-quota-project <YOUR_PROJECT_ID>
 
 Run this in your own terminal with `! gcloud auth application-default login …` (it opens a browser).
 
-## 4. Point the script at your properties
+## 4. Point the report at your properties
 
 Find the **numeric GA4 property id** in Analytics Admin → Property Settings (this is *not* the `G-XXXX` measurement id).
 
@@ -49,9 +49,12 @@ GSC_SITE_URL=https://ssudake.com/      # or sc-domain:ssudake.com for a domain p
 
 ## 5. Run
 
+The `report-site-analytics` skill now owns the report generator — run that skill (the `reachability-loop` measure step invokes it for you).
+To verify access manually, run the skill's vendored script with the venv (so its Google client deps resolve):
+
 ```bash
-.venv/bin/python scripts/analytics-report.py            # last 28 days
-.venv/bin/python scripts/analytics-report.py --days 90
+.venv/bin/python "$HOME/.claude-personal/skills/report-site-analytics/analytics-report.py" \
+  --site https://ssudake.com/ --days 28 --out docs/analytics/$(date +%F).md
 ```
 
 Writes `docs/analytics/<date>.md` (human) and `<date>.json` (the loop diffs this across runs).
