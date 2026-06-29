@@ -30,6 +30,7 @@ article.showBreadcrumbs = true   # orientation on deep post URLs (independent of
 article.showWordCount = true     # reading time is already shown; add word count
 article.showTaxonomies = true    # show each post's tags inline, linking to /tags/ term pages
 list.showBreadcrumbs = true      # crumbs on taxonomy/term/list pages too
+list.showSummary = true          # surface each post's summary in list/recent views (uses frontmatter summary)
 
 footer.showThemeAttribution = false
 footer.showAppearanceSwitcher = true

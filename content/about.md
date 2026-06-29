@@ -1,7 +1,11 @@
 ---
 title: "About"
 date: 2018-07-07T19:13:17+05:30
-meta:  "false"
+# Evergreen page: hide the date / word-count / reading-time meta line.
+# (Congo reads these per-page params; the old `meta: "false"` was a no-op.)
+showDate: false
+showReadingTime: false
+showWordCount: false
 ---
 
 ## About Me
