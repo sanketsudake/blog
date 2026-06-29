@@ -1,0 +1,29 @@
+{{- /* Project override of Congo's _partials/recent-articles.html.
+
+   Renders the homepage "Recent" list compact (title + meta only). We enable
+   `list.showSummary` site-wide so summaries appear on /posts/ and taxonomy
+   list pages, but that param is global and would also add summaries here,
+   cluttering the landing page. This override drops the summary (and the
+   thumbnail block, which posts never show because the posts/_index.md cascade
+   sets feature = "no-onpage-feature").
+
+   Re-diff against Congo's _partials/article-link.html on theme upgrade. */ -}}
+{{ if .Site.Params.homepage.showRecent | default false }}
+  <h2 class="mt-8 text-2xl font-extrabold">{{ i18n "shortcode.recent_articles" | emojify }}</h2>
+  {{ range first .Site.Params.homepage.recentLimit (.Paginate (where .Site.RegularPages "Type" "in" .Site.Params.mainSections) .Site.Params.homepage.recentLimit).Pages }}
+    <article class="mt-6 flex max-w-prose flex-row">
+      <div>
+        <h3 class="flex items-center text-xl font-semibold">
+          <a
+            class="text-neutral-800 decoration-primary-500 hover:underline hover:underline-offset-2 dark:text-neutral"
+            href="{{ .Permalink }}"
+            >{{ .Title | emojify }}</a
+          >
+        </h3>
+        <div class="text-sm text-neutral-500 dark:text-neutral-400">
+          {{ partial "article-meta.html" . }}
+        </div>
+      </div>
+    </article>
+  {{ end }}
+{{ end }}

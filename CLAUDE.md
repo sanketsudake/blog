@@ -13,11 +13,14 @@ Match those locally if a build behaves oddly.
 ### Theme overrides to re-diff on Congo upgrade
 
 Most of `layouts/` is upgrade-safe (custom talks layouts, shortcodes, robots.txt, llms.txt templates, and an `rss.xml` that overrides Hugo's *embedded* template, not a Congo one).
-But two files copy a **Congo module partial/layout** and patch it — after any `hugo mod get -u`, re-diff each against the new module version (`~/Library/Caches/hugo_cache/modules/.../jpanther/congo/v2@<ver>/layouts/`) and re-apply the change:
+But three files copy a **Congo module partial/layout** and patch it — after any `hugo mod get -u`, re-diff each against the new module version (`~/Library/Caches/hugo_cache/modules/.../jpanther/congo/v2@<ver>/layouts/`) and re-apply the change:
 
 - `layouts/_partials/schema.html` — adds `image`, `BlogPosting` type, `publisher`, and a URL-form `mainEntityOfPage` to the Article JSON-LD.
   Only the `.IsPage` block differs from upstream.
 - `layouts/single.html` — identical to upstream except one added line in the footer: `{{ partial "related.html" . }}` (related posts, driven by the `[related]` config in `hugo.toml` and `layouts/_partials/related.html`).
+- `layouts/_partials/recent-articles.html` — renders the homepage "Recent" list compact (title + meta only), dropping the summary and thumbnail blocks that upstream's `article-link.html` would emit.
+  Exists because `list.showSummary = true` (in `params.toml`) is global: it should enrich the `/posts/` and taxonomy lists but *not* clutter the landing page.
+  Re-diff against upstream `_partials/article-link.html`.
 
 ## Build, serve, deploy
 

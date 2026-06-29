@@ -272,6 +272,35 @@
   font-weight: 600;
 }
 
+/* ── Previous talk version (collapsible) ─────────────────── */
+.talk-prev-version {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(var(--color-neutral-200), 0.6);
+}
+
+.dark .talk-prev-version {
+  border-top-color: rgba(var(--color-neutral-700), 0.6);
+}
+
+.talk-prev-version > summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: rgba(var(--color-neutral-700), 1);
+}
+
+.talk-prev-version > summary:hover {
+  color: rgba(var(--color-primary-600), 1);
+}
+
+.dark .talk-prev-version > summary {
+  color: rgba(var(--color-neutral-300), 1);
+}
+
+.dark .talk-prev-version > summary:hover {
+  color: rgba(var(--color-primary-400), 1);
+}
+
 /* ── Photo gallery ───────────────────────────────────────── */
 .talk-gallery {
   margin-top: 3rem;

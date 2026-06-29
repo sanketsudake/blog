@@ -1,0 +1,9 @@
+{{- /* Collapsible <details>/<summary> block. Raw HTML in markdown is stripped
+       (goldmark unsafe is off), so this shortcode emits the element directly.
+       Usage: {{< details summary="Show more" class="optional-class" >}}…{{< /details >}}
+       Nested shortcodes inside the body (e.g. {{< slideshare >}}) are rendered. */ -}}
+{{- $summary := .Get "summary" | default "Details" -}}
+<details{{ with .Get "class" }} class="{{ . }}"{{ end }}>
+  <summary>{{ $summary }}</summary>
+  {{ .Inner }}
+</details>
