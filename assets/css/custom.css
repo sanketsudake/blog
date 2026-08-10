@@ -32,6 +32,39 @@
   }
 }
 
+/* ── PDF slides embed ────────────────────────────────────── */
+.pdf-embed {
+  position: relative;
+  width: 100%;
+  padding-bottom: 62.5%; /* 16:9 slides + viewer chrome */
+  height: 0;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  margin: 1.5rem 0 0.5rem;
+}
+
+.pdf-embed object {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.pdf-embed__links {
+  margin: 0 0 1.5rem;
+  font-size: 0.875rem;
+}
+
+@media (max-width: 640px) {
+  /* Mobile browsers (notably iOS Safari) render inline PDFs poorly
+     or first-page-only — hide the viewer, keep the links. */
+  .pdf-embed {
+    display: none;
+  }
+}
+
 /* ── Talks timeline list ─────────────────────────────────── */
 .talks-year-group {
   margin-top: 2.5rem;

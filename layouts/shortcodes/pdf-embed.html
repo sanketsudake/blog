@@ -1,0 +1,20 @@
+{{- $src := .Get "src" -}}
+{{- if not $src -}}
+{{ errorf "pdf-embed shortcode: 'src' parameter is required (e.g. {{< pdf-embed src=\"slides.pdf\" >}})" }}
+{{- else -}}
+{{- $pdf := .Page.Resources.GetMatch $src -}}
+{{- if not $pdf -}}
+{{ errorf "pdf-embed shortcode: resource %q not found in page bundle %q" $src .Page.File.Path }}
+{{- else -}}
+<div class="pdf-embed">
+  <object data="{{ $pdf.RelPermalink }}" type="application/pdf" aria-label="Slides: {{ .Page.Title }}">
+    <p>Your browser cannot display the slides inline.</p>
+  </object>
+</div>
+<p class="pdf-embed__links">
+  <a href="{{ $pdf.RelPermalink }}" target="_blank" rel="noopener">Open slides in a new tab &#8599;</a>
+  &middot;
+  <a href="{{ $pdf.RelPermalink }}" download>Download PDF</a>
+</p>
+{{- end -}}
+{{- end -}}
