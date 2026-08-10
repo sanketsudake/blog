@@ -7,7 +7,7 @@
 {{ errorf "pdf-embed shortcode: resource %q not found in page bundle %q" $src .Page.File.Path }}
 {{- else -}}
 <div class="pdf-embed">
-  <object data="{{ $pdf.RelPermalink }}" type="application/pdf" aria-label="Slides: {{ .Page.Title }}">
+  <object data="{{ $pdf.RelPermalink }}#view=FitH&navpanes=0" type="application/pdf" aria-label="Slides: {{ .Page.Title }}">
     <p>Your browser cannot display the slides inline.</p>
   </object>
 </div>

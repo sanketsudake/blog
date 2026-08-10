@@ -35,8 +35,13 @@
 /* ── PDF slides embed ────────────────────────────────────── */
 .pdf-embed {
   position: relative;
-  width: 100%;
-  padding-bottom: 62.5%; /* 16:9 slides + viewer chrome */
+  /* Break out of the 48rem talk column so slides render at a
+     readable zoom. 14rem ≈ the page chrome left+right of the
+     column, so the embed never overflows the viewport; never
+     narrower than the column itself. */
+  --pdf-embed-width: min(68rem, max(100%, calc(100vw - 14rem)));
+  width: var(--pdf-embed-width);
+  padding-bottom: calc(var(--pdf-embed-width) * 0.625); /* 16:9 slides + viewer chrome */
   height: 0;
   overflow: hidden;
   border-radius: 0.5rem;
