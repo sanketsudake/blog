@@ -1,0 +1,11 @@
+{{ define "main" }}
+  {{- /* Book sections carry their own table of contents in _index.md content,
+         so this layout renders the page content only and suppresses Congo's
+         default year-grouped article list. */ -}}
+  <header>
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title }}</h1>
+  </header>
+  {{ with .Content }}
+    <section class="prose mt-4 dark:prose-invert">{{ . | emojify }}</section>
+  {{ end }}
+{{ end }}
