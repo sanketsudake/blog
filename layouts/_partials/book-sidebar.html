@@ -1,0 +1,28 @@
+{{- /* O'Reilly-style chapter rail for book pages. Groups the book's chapters
+       by their `part` front-matter param (contiguous by weight; emitted by
+       scripts/import-k8s-worksheet.py). Chapter labels shorten
+       "Chapter N — Title" to "N. Title"; the appendices keep their title. */ -}}
+{{ $book := .CurrentSection }}
+{{ $current := . }}
+<nav class="book-sidebar" aria-label="Book chapters">
+  <a class="book-sidebar__book" href="{{ $book.RelPermalink }}">{{ $book.Title | emojify }}</a>
+  {{ $part := "" }}
+  <ul class="book-sidebar__list">
+    {{ range $book.RegularPages.ByWeight }}
+      {{ $label := replaceRE `^Chapter (\d+) — ` "$1. " .Title }}
+      {{ with .Params.part }}
+        {{ if ne . $part }}
+          {{ $part = . }}
+          <li class="book-sidebar__part">{{ . }}</li>
+        {{ end }}
+      {{ end }}
+      <li>
+        {{ if eq .RelPermalink $current.RelPermalink }}
+          <span class="book-sidebar__item book-sidebar__item--active" aria-current="page">{{ $label | emojify }}</span>
+        {{ else }}
+          <a class="book-sidebar__item" href="{{ .RelPermalink }}">{{ $label | emojify }}</a>
+        {{ end }}
+      </li>
+    {{ end }}
+  </ul>
+</nav>

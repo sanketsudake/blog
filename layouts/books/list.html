@@ -1,0 +1,28 @@
+{{- /* Books section layouts, two levels served by one template:
+       /books/ has child sections (the books) and lists them as plain
+       title links; a book's own landing page has no child sections and
+       renders its content — the table of contents its _index.md carries.
+       Congo's default year-grouped article list is suppressed at both
+       levels. */ -}}
+{{ define "main" }}
+  <header>
+    <h1 class="mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">{{ .Title }}</h1>
+  </header>
+  {{ with .Content }}
+    <section class="prose mt-4 dark:prose-invert">{{ . | emojify }}</section>
+  {{ end }}
+  {{ with .Sections }}
+    <ul class="book-shelf mt-8">
+      {{ range . }}
+        <li>
+          <a class="book-cover" href="{{ .RelPermalink }}">
+            <span class="book-cover__kicker">Book</span>
+            <span class="book-cover__rule"></span>
+            <span class="book-cover__title">{{ .Title | emojify }}</span>
+            <span class="book-cover__meta">{{ len .RegularPages }} chapters</span>
+          </a>
+        </li>
+      {{ end }}
+    </ul>
+  {{ end }}
+{{ end }}

@@ -1,0 +1,114 @@
+{{- /* Book chapter layout: the reading view for /books/<book>/<chapter>/.
+       A sticky chapter rail (book-sidebar partial) sits left of the article;
+       the article keeps Congo's heading-TOC right rail and prev/next
+       pagination, and drops the post furniture (author, sharing, related).
+       Styles live in assets/css/custom.css under .book-*. */ -}}
+{{ define "main" }}
+  <div class="book-layout">
+    <aside class="book-layout__rail print:hidden">
+      <button class="book-toggle book-toggle--rail" aria-label="Toggle chapter list" title="Toggle chapter list"><span class="book-toggle__hide">&laquo;</span><span class="book-toggle__show">&raquo;</span></button>
+      {{ partial "book-sidebar.html" . }}
+    </aside>
+    <article class="book-layout__article">
+      <header>
+        {{ if .Params.showBreadcrumbs | default (.Site.Params.article.showBreadcrumbs | default false) }}
+          {{ partial "breadcrumbs.html" . }}
+        {{ end }}
+        <h1 class="mb-8 mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+          {{ .Title | emojify }}
+        </h1>
+        <div class="mb-10 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+          {{ partial "article-meta.html" (dict "context" . "scope" "single") }}
+        </div>
+      </header>
+      <section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row">
+        {{ if and (.Params.showTableOfContents | default (.Site.Params.article.showTableOfContents | default false)) (in .TableOfContents "<ul") }}
+          <div class="book-toc order-first px-0 lg:order-last">
+            <div class="pe-5 lg:sticky lg:top-10 print:hidden">
+              <button class="book-toggle book-toggle--toc" aria-label="Toggle on-page contents" title="Toggle on-page contents"><span class="book-toggle__hide">&raquo;</span><span class="book-toggle__show">&laquo;</span></button>
+              <div class="toc">
+                {{ partial "toc.html" . }}
+              </div>
+            </div>
+          </div>
+        {{ end }}
+        <div class="book-content min-h-0 min-w-0 grow">
+          {{ .Content | emojify }}
+        </div>
+      </section>
+      <footer class="book-measure pt-8 print:hidden">
+        {{ partial "article-pagination.html" . }}
+      </footer>
+    </article>
+  </div>
+  <script>
+    (function () {
+      var layout = document.querySelector('.book-layout');
+      if (!layout) return;
+      [['book-rail-collapsed', 'rail-collapsed', '.book-toggle--rail'],
+       ['book-toc-collapsed', 'toc-collapsed', '.book-toggle--toc']].forEach(function (cfg) {
+        var btn = layout.querySelector(cfg[2]);
+        if (!btn) return;
+        try { if (localStorage.getItem(cfg[0]) === '1') layout.classList.add(cfg[1]); } catch (e) {}
+        var sync = function () { btn.setAttribute('aria-expanded', String(!layout.classList.contains(cfg[1]))); };
+        sync();
+        btn.addEventListener('click', function () {
+          layout.classList.toggle(cfg[1]);
+          try { localStorage.setItem(cfg[0], layout.classList.contains(cfg[1]) ? '1' : '0'); } catch (e) {}
+          sync();
+        });
+      });
+
+      // Click-to-zoom lightbox for mermaid diagrams: wheel zooms, drag pans,
+      // Escape / backdrop / the close button dismiss.
+      function openZoom(diagram) {
+        var svg = diagram.querySelector('svg');
+        if (!svg) return;
+        var overlay = document.createElement('div');
+        overlay.className = 'book-zoom';
+        var stage = document.createElement('div');
+        stage.className = 'book-zoom__stage';
+        stage.innerHTML = svg.outerHTML;
+        var closeBtn = document.createElement('button');
+        closeBtn.className = 'book-zoom__close';
+        closeBtn.setAttribute('aria-label', 'Close diagram');
+        closeBtn.textContent = '×';
+        overlay.appendChild(stage);
+        overlay.appendChild(closeBtn);
+        document.body.appendChild(overlay);
+        document.documentElement.classList.add('book-zoom-open');
+        var scale = 1, tx = 0, ty = 0, panning = false, sx = 0, sy = 0;
+        function apply() { stage.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')'; }
+        function onMove(e) { if (panning) { tx = e.clientX - sx; ty = e.clientY - sy; apply(); } }
+        function onUp() { panning = false; }
+        function onKey(e) { if (e.key === 'Escape') close(); }
+        function close() {
+          overlay.remove();
+          document.documentElement.classList.remove('book-zoom-open');
+          window.removeEventListener('mousemove', onMove);
+          window.removeEventListener('mouseup', onUp);
+          document.removeEventListener('keydown', onKey);
+        }
+        overlay.addEventListener('wheel', function (e) {
+          e.preventDefault();
+          var f = e.deltaY < 0 ? 1.15 : 1 / 1.15;
+          scale = Math.min(8, Math.max(0.4, scale * f));
+          apply();
+        }, { passive: false });
+        stage.addEventListener('mousedown', function (e) {
+          e.preventDefault();
+          panning = true; sx = e.clientX - tx; sy = e.clientY - ty;
+        });
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup', onUp);
+        overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
+        closeBtn.addEventListener('click', close);
+        document.addEventListener('keydown', onKey);
+      }
+      document.querySelectorAll('.book-content .mermaid').forEach(function (d) {
+        d.setAttribute('title', 'Click to zoom');
+        d.addEventListener('click', function () { openZoom(d); });
+      });
+    })();
+  </script>
+{{ end }}

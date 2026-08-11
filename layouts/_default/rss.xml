@@ -11,6 +11,11 @@
 {{- else -}}
 {{- $pages = $pctx.Pages -}}
 {{- end -}}
+{{- /* Keep book chapters out of the site-wide feed; /books/ still gets its
+       own index.xml for anyone who wants chapter updates. */ -}}
+{{- if $.IsHome -}}
+{{- $pages = where $pages "Section" "ne" "books" -}}
+{{- end -}}
 {{- $limit := .Site.Config.Services.RSS.Limit -}}
 {{- if ge $limit 1 -}}
 {{- $pages = $pages | first $limit -}}

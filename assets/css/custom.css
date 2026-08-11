@@ -527,3 +527,339 @@
 .dark .prose {
   --tw-prose-invert-body: rgba(var(--color-neutral-200), 1);
 }
+
+/* ---- Books: O'Reilly-style reading layout ------------------------------- */
+/* Chapter pages (layouts/books/single.html + _partials/book-sidebar.html)
+   run a three-column spread: chapter rail | content | heading TOC.
+   Congo's page container is max-w-7xl with heavy padding, far too narrow
+   for three columns — so the spread breaks out of it with negative margins
+   and centers itself at up to ~88rem. Below 1024px both rails yield:
+   the chapter rail hides (landing TOC + prev/next navigate) and the
+   heading TOC stacks above the content as on posts. */
+
+.book-layout {
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  padding-left: max(1.5rem, calc(50vw - 44rem));
+  padding-right: max(1.5rem, calc(50vw - 44rem));
+  display: flex;
+  gap: 3rem;
+  align-items: flex-start;
+}
+
+.book-layout__rail {
+  display: none;
+}
+
+.book-layout__article {
+  min-width: 0;
+  flex-grow: 1;
+}
+
+/* Content measure: wider than post prose (the book carries tables and
+   diagrams), still inside comfortable reading range at 1.125rem. */
+.book-content {
+  max-width: 46rem;
+}
+
+.book-measure {
+  max-width: 46rem;
+}
+
+.prose .book-content {
+  font-size: 1.125rem;
+}
+
+@media (min-width: 1024px) {
+  .book-layout__rail {
+    display: block;
+    flex-shrink: 0;
+    width: 17rem;
+    position: sticky;
+    top: 2.5rem;
+    max-height: calc(100vh - 5rem);
+    overflow-y: auto;
+    padding-right: 0.25rem;
+  }
+
+  .book-toc {
+    width: 17rem;
+    flex-shrink: 0;
+    padding-left: 2.5rem;
+  }
+
+  .book-toc .toc {
+    max-height: calc(100vh - 5rem);
+    overflow-y: auto;
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+}
+
+.book-sidebar__book {
+  display: block;
+  font-weight: 700;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  margin-bottom: 1rem;
+  color: rgba(var(--color-neutral-800), 1);
+}
+
+.dark .book-sidebar__book {
+  color: rgba(var(--color-neutral-200), 1);
+}
+
+.book-sidebar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 0.875rem;
+  line-height: 1.4;
+}
+
+.book-sidebar__part {
+  margin: 1.25rem 0 0.35rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(var(--color-neutral-500), 1);
+}
+
+.dark .book-sidebar__part {
+  color: rgba(var(--color-neutral-400), 1);
+}
+
+.book-sidebar__item {
+  display: block;
+  padding: 0.35rem 0.6rem;
+  border-radius: 0.375rem;
+  color: rgba(var(--color-neutral-700), 1);
+}
+
+.dark .book-sidebar__item {
+  color: rgba(var(--color-neutral-300), 1);
+}
+
+a.book-sidebar__item:hover {
+  background: rgba(var(--color-neutral-100), 1);
+  color: rgba(var(--color-primary-600), 1);
+}
+
+.dark a.book-sidebar__item:hover {
+  background: rgba(var(--color-neutral-800), 1);
+  color: rgba(var(--color-primary-400), 1);
+}
+
+.book-sidebar__item--active {
+  background: rgba(var(--color-primary-100), 1);
+  color: rgba(var(--color-primary-800), 1);
+  font-weight: 600;
+}
+
+.dark .book-sidebar__item--active {
+  background: rgba(var(--color-primary-900), 0.6);
+  color: rgba(var(--color-primary-200), 1);
+}
+
+/* /books/ index: a shelf of cover tiles shaped like books —
+   portrait 3:4.3, gradient cover, a light spine line, lift on hover. */
+.book-shelf {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.book-cover {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 13.5rem;
+  aspect-ratio: 3 / 4.3;
+  padding: 1.4rem 1.2rem 1.2rem 1.7rem;
+  border-radius: 0.3rem 0.8rem 0.8rem 0.3rem;
+  background: linear-gradient(135deg, rgba(var(--color-primary-700), 1), rgba(var(--color-primary-900), 1));
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.book-cover::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0.55rem;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.book-cover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 28px rgba(0, 0, 0, 0.35);
+}
+
+.book-cover__kicker {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(255, 255, 255, 0.75);
+  margin-bottom: 0.6rem;
+}
+
+.book-cover__rule {
+  height: 2px;
+  width: 2.25rem;
+  background: rgba(255, 255, 255, 0.5);
+  margin-bottom: 0.9rem;
+}
+
+.book-cover__title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  line-height: 1.3;
+  color: #fff;
+}
+
+.book-cover__meta {
+  margin-top: auto;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Zen mode: both book rails collapse via the round toggle buttons
+   (state persisted in localStorage across chapters). Collapsed rails
+   shrink to a thin strip holding just the reopen button; the article
+   re-centers because .book-layout justifies center. */
+
+.book-layout {
+  justify-content: center;
+}
+
+.book-layout__article {
+  flex-grow: 0;
+}
+
+.book-toggle {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .book-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.75rem;
+    height: 1.75rem;
+    margin-bottom: 0.75rem;
+    border: 1px solid rgba(var(--color-neutral-400), 0.45);
+    border-radius: 9999px;
+    background: transparent;
+    color: rgba(var(--color-neutral-500), 1);
+    font-size: 0.85rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .book-toggle:hover {
+    color: rgba(var(--color-primary-600), 1);
+    border-color: rgba(var(--color-primary-600), 0.6);
+  }
+
+  .dark .book-toggle {
+    color: rgba(var(--color-neutral-400), 1);
+  }
+
+  .dark .book-toggle:hover {
+    color: rgba(var(--color-primary-400), 1);
+    border-color: rgba(var(--color-primary-400), 0.6);
+  }
+}
+
+.book-toggle__show {
+  display: none;
+}
+
+.rail-collapsed .book-layout__rail .book-sidebar,
+.toc-collapsed .book-toc .toc {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .rail-collapsed .book-layout__rail,
+  .toc-collapsed .book-toc {
+    width: 2.25rem;
+  }
+}
+
+.rail-collapsed .book-toggle--rail .book-toggle__hide,
+.toc-collapsed .book-toggle--toc .book-toggle__hide {
+  display: none;
+}
+
+.rail-collapsed .book-toggle--rail .book-toggle__show,
+.toc-collapsed .book-toggle--toc .book-toggle__show {
+  display: inline;
+}
+
+/* Mermaid click-to-zoom lightbox on book pages: wheel zooms, drag pans,
+   Escape / backdrop / the button close. */
+
+.book-content .mermaid {
+  cursor: zoom-in;
+}
+
+html.book-zoom-open {
+  overflow: hidden;
+}
+
+.book-zoom {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.book-zoom__stage {
+  background: rgba(var(--color-neutral), 1);
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  cursor: grab;
+  transform-origin: center center;
+}
+
+.book-zoom__stage:active {
+  cursor: grabbing;
+}
+
+.dark .book-zoom__stage {
+  background: rgba(var(--color-neutral-800), 1);
+}
+
+.book-zoom__stage svg {
+  max-width: none !important;
+  width: min(90vw, 1400px);
+  height: auto;
+  display: block;
+}
+
+.book-zoom__close {
+  position: fixed;
+  top: 1rem;
+  right: 1.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 9999px;
+  background: rgba(var(--color-neutral-800), 0.8);
+  color: rgba(var(--color-neutral-100), 1);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
