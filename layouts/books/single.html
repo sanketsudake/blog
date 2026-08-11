@@ -6,10 +6,11 @@
 {{ define "main" }}
   <div class="book-layout">
     <aside class="book-layout__rail print:hidden">
+      <button class="book-toggle book-toggle--rail" aria-label="Toggle chapter list" title="Toggle chapter list"><span class="book-toggle__hide">&laquo;</span><span class="book-toggle__show">&raquo;</span></button>
       {{ partial "book-sidebar.html" . }}
     </aside>
     <article class="book-layout__article">
-      <header class="max-w-prose">
+      <header>
         {{ if .Params.showBreadcrumbs | default (.Site.Params.article.showBreadcrumbs | default false) }}
           {{ partial "breadcrumbs.html" . }}
         {{ end }}
@@ -22,19 +23,41 @@
       </header>
       <section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row">
         {{ if and (.Params.showTableOfContents | default (.Site.Params.article.showTableOfContents | default false)) (in .TableOfContents "<ul") }}
-          <div class="order-first px-0 lg:order-last lg:max-w-xs lg:ps-8">
-            <div class="toc pe-5 lg:sticky lg:top-10 print:hidden">
-              {{ partial "toc.html" . }}
+          <div class="book-toc order-first px-0 lg:order-last">
+            <div class="pe-5 lg:sticky lg:top-10 print:hidden">
+              <button class="book-toggle book-toggle--toc" aria-label="Toggle on-page contents" title="Toggle on-page contents"><span class="book-toggle__hide">&raquo;</span><span class="book-toggle__show">&laquo;</span></button>
+              <div class="toc">
+                {{ partial "toc.html" . }}
+              </div>
             </div>
           </div>
         {{ end }}
-        <div class="min-h-0 min-w-0 max-w-prose grow">
+        <div class="book-content min-h-0 min-w-0 grow">
           {{ .Content | emojify }}
         </div>
       </section>
-      <footer class="max-w-prose pt-8 print:hidden">
+      <footer class="book-measure pt-8 print:hidden">
         {{ partial "article-pagination.html" . }}
       </footer>
     </article>
   </div>
+  <script>
+    (function () {
+      var layout = document.querySelector('.book-layout');
+      if (!layout) return;
+      [['book-rail-collapsed', 'rail-collapsed', '.book-toggle--rail'],
+       ['book-toc-collapsed', 'toc-collapsed', '.book-toggle--toc']].forEach(function (cfg) {
+        var btn = layout.querySelector(cfg[2]);
+        if (!btn) return;
+        try { if (localStorage.getItem(cfg[0]) === '1') layout.classList.add(cfg[1]); } catch (e) {}
+        var sync = function () { btn.setAttribute('aria-expanded', String(!layout.classList.contains(cfg[1]))); };
+        sync();
+        btn.addEventListener('click', function () {
+          layout.classList.toggle(cfg[1]);
+          try { localStorage.setItem(cfg[0], layout.classList.contains(cfg[1]) ? '1' : '0'); } catch (e) {}
+          sync();
+        });
+      });
+    })();
+  </script>
 {{ end }}
