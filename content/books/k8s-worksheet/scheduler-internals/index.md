@@ -4,6 +4,7 @@ title = "Chapter 3 — Scheduler Internals"
 date = 2026-08-11T12:50:00+05:30
 weight = 3
 summary = "Scheduling questions test whether you know what the scheduler actually does — pick a node and write a binding — and what it deliberately does not do: start containers, watch live utilization."
+part = "Part A — Foundations & control plane internals"
 showTableOfContents = true
 +++
 

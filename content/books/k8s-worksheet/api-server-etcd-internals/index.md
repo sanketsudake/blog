@@ -4,6 +4,7 @@ title = "Chapter 2 — API Server & etcd Internals"
 date = 2026-08-11T12:50:00+05:30
 weight = 2
 summary = "The API server is the only door to cluster state, so interviewers probe it to see whether you understand Kubernetes as a distributed system rather than a YAML runner."
+part = "Part A — Foundations & control plane internals"
 showTableOfContents = true
 +++
 

@@ -1,0 +1,40 @@
+{{- /* Book chapter layout: the reading view for /books/<book>/<chapter>/.
+       A sticky chapter rail (book-sidebar partial) sits left of the article;
+       the article keeps Congo's heading-TOC right rail and prev/next
+       pagination, and drops the post furniture (author, sharing, related).
+       Styles live in assets/css/custom.css under .book-*. */ -}}
+{{ define "main" }}
+  <div class="book-layout">
+    <aside class="book-layout__rail print:hidden">
+      {{ partial "book-sidebar.html" . }}
+    </aside>
+    <article class="book-layout__article">
+      <header class="max-w-prose">
+        {{ if .Params.showBreadcrumbs | default (.Site.Params.article.showBreadcrumbs | default false) }}
+          {{ partial "breadcrumbs.html" . }}
+        {{ end }}
+        <h1 class="mb-8 mt-0 text-4xl font-extrabold text-neutral-900 dark:text-neutral">
+          {{ .Title | emojify }}
+        </h1>
+        <div class="mb-10 text-base text-neutral-500 dark:text-neutral-400 print:hidden">
+          {{ partial "article-meta.html" (dict "context" . "scope" "single") }}
+        </div>
+      </header>
+      <section class="prose mt-0 flex max-w-full flex-col dark:prose-invert lg:flex-row">
+        {{ if and (.Params.showTableOfContents | default (.Site.Params.article.showTableOfContents | default false)) (in .TableOfContents "<ul") }}
+          <div class="order-first px-0 lg:order-last lg:max-w-xs lg:ps-8">
+            <div class="toc pe-5 lg:sticky lg:top-10 print:hidden">
+              {{ partial "toc.html" . }}
+            </div>
+          </div>
+        {{ end }}
+        <div class="min-h-0 min-w-0 max-w-prose grow">
+          {{ .Content | emojify }}
+        </div>
+      </section>
+      <footer class="max-w-prose pt-8 print:hidden">
+        {{ partial "article-pagination.html" . }}
+      </footer>
+    </article>
+  </div>
+{{ end }}

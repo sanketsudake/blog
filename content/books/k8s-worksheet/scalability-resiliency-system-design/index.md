@@ -4,6 +4,7 @@ title = "Chapter 10 — Scalability, Resiliency & System Design"
 date = 2026-08-11T12:50:00+05:30
 weight = 10
 summary = "Senior interviews end here: not \"what does the scheduler do\" but \"what breaks first at 5,000 nodes\" and \"what still works when etcd is gone\"."
+part = "Part D — Operating at scale"
 showTableOfContents = true
 +++
 

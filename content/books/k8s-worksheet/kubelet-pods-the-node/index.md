@@ -4,6 +4,7 @@ title = "Chapter 4 — Kubelet, Pods & the Node"
 date = 2026-08-11T12:50:00+05:30
 weight = 4
 summary = "This is where desired state becomes processes."
+part = "Part A — Foundations & control plane internals"
 showTableOfContents = true
 +++
 

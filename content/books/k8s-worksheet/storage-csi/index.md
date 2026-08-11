@@ -4,6 +4,7 @@ title = "Chapter 8 — Storage & CSI"
 date = 2026-08-11T12:50:00+05:30
 weight = 8
 summary = "Storage interviews probe whether you can name who does what: five sidecars, two plugin halves, and three control loops — the PV controller, the attach-detach controller, and the scheduler's volume-binding plugin — turn a PVC into a mounted filesystem."
+part = "Part C — Standards & extension interfaces"
 showTableOfContents = true
 +++
 

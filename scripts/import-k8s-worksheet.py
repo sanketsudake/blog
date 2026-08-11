@@ -146,14 +146,6 @@ def build_index(chapters: list[dict], commit: str, date: str) -> str:
         toc.append("")
     body = f"""{fm}
 
-A flow-first prep book for deep Kubernetes interviews, from senior through principal level.
-Every one of its 30 flows traces one event end to end — from the command you type to the container that runs, and at fleet scale, across clusters — with numbered steps, a diagram, the ways it fails in production, and tiered questions with model answers.
-
-The book is developed in the open at [sanketsudake/k8s-worksheet](https://github.com/sanketsudake/k8s-worksheet), where it is also available as a [print-ready PDF](https://github.com/sanketsudake/k8s-worksheet/releases/latest).
-This site serves the same content as browsable chapters; use the table of contents below, or read front to back — later chapters build on earlier ones.
-
-## Table of contents
-
 {chr(10).join(toc)}
 """
     return body
@@ -181,6 +173,7 @@ def main() -> None:
         shutil.rmtree(OUT_DIR)
     OUT_DIR.mkdir(parents=True)
 
+    part_of = {n: part for part, nums in PARTS for n in nums}
     written = []
     for c in chapters:
         page_dir = OUT_DIR / c["slug"]
@@ -191,6 +184,7 @@ def main() -> None:
             date=date,
             weight=str(c["number"]),
             summary=toml_str(c["summary"]),
+            part=toml_str(part_of[c["number"]]),
             showTableOfContents="true",
         )
         path = page_dir / "index.md"

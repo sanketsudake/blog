@@ -100,8 +100,11 @@ The script wipes and regenerates the whole section: it strips each chapter's H1 
 Book front matter is **TOML** (the posts convention).
 Prose cross-references inside chapters ("Flow 8", "Chapter 10") intentionally stay plain text — do not linkify them.
 
-`content/books/_index.md` and `layouts/books/list.html` are hand-maintained (the list layout renders `.Content` only, since each book's `_index.md` carries its own table of contents).
-The section `_index.md` cascades `invertPagination = true` — without it, Congo's chapter prev/next arrows read backwards for weight-ordered sections.
+`content/books/_index.md`, `layouts/books/list.html`, `layouts/books/single.html`, and `layouts/_partials/book-sidebar.html` are hand-maintained.
+Chapter pages use the books single layout: an O'Reilly-style sticky chapter rail (grouped by each chapter's `part` front-matter param, which the import script emits) left of the article, keeping Congo's heading-TOC right rail and prev/next, and dropping post furniture (author, sharing, related).
+The rail hides below 1024px; small screens navigate via the book landing's table of contents and prev/next.
+Rail styles live in `assets/css/custom.css` under `.book-*` (plain CSS on Congo's color variables — Congo ships precompiled Tailwind, so novel utility classes would not resolve).
+The book section `_index.md` cascades `invertPagination = true` — without it, Congo's chapter prev/next arrows read backwards for weight-ordered sections.
 
 Book chapters are deliberately excluded from the homepage search index (`layouts/index.json`, a patched copy of Congo's — **re-diff on Congo upgrades**) and from the site-wide RSS feed (`layouts/_default/rss.xml`); they are included in the sitemap, `llms.txt`, and `llms-full.txt`.
 

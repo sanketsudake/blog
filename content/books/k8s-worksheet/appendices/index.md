@@ -4,6 +4,7 @@ title = "Appendices"
 date = 2026-08-11T12:50:00+05:30
 weight = 13
 summary = "Quick-reference tables, a glossary, the answer-quality rubric, the principal's lens, and further reading — the book's last-hour revision layer."
+part = "Reference"
 showTableOfContents = true
 +++
 

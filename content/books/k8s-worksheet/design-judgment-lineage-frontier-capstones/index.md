@@ -4,6 +4,7 @@ title = "Chapter 12 — Design Judgment: Lineage, Frontier & Capstones"
 date = 2026-08-11T12:50:00+05:30
 weight = 12
 summary = "Distinguished-level conversations are not quizzes; they are arguments about the past and bets on the future."
+part = "Part E — Judgment at principal scale"
 showTableOfContents = true
 +++
 

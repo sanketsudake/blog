@@ -4,6 +4,7 @@ title = "Chapter 11 — Fleet, Platform & Economics"
 date = 2026-08-11T12:50:00+05:30
 weight = 11
 summary = "Principal-level interviews leave the single cluster behind."
+part = "Part E — Judgment at principal scale"
 showTableOfContents = true
 +++
 

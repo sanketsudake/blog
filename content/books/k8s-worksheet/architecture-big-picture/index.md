@@ -4,6 +4,7 @@ title = "Chapter 1 — Architecture Big Picture"
 date = 2026-08-11T12:50:00+05:30
 weight = 1
 summary = "Interviewers open with architecture to check your mental model, because every deeper question builds on it."
+part = "Part A — Foundations & control plane internals"
 showTableOfContents = true
 +++
 

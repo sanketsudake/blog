@@ -4,6 +4,7 @@ title = "Chapter 7 — Networking & CNI"
 date = 2026-08-11T12:50:00+05:30
 weight = 7
 summary = "Interviewers use networking to test whether you know what actually moves packets."
+part = "Part C — Standards & extension interfaces"
 showTableOfContents = true
 +++
 

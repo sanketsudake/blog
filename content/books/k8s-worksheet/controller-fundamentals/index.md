@@ -4,6 +4,7 @@ title = "Chapter 5 — Controller Fundamentals"
 date = 2026-08-11T12:50:00+05:30
 weight = 5
 summary = "Interviewers use controllers to separate people who *use* Kubernetes from people who understand it."
+part = "Part B — Controllers"
 showTableOfContents = true
 +++
 

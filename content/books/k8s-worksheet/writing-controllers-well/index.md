@@ -4,6 +4,7 @@ title = "Chapter 6 — Writing Controllers Well"
 date = 2026-08-11T12:50:00+05:30
 weight = 6
 summary = "For controller-heavy roles, this is the chapter interviews are decided on."
+part = "Part B — Controllers"
 showTableOfContents = true
 +++
 

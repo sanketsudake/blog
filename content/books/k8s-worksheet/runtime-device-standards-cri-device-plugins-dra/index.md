@@ -4,6 +4,7 @@ title = "Chapter 9 — Runtime & Device Standards: CRI, Device Plugins, DRA"
 date = 2026-08-11T12:50:00+05:30
 weight = 9
 summary = "This chapter closes the standards story."
+part = "Part C — Standards & extension interfaces"
 showTableOfContents = true
 +++
 
