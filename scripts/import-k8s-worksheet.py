@@ -131,6 +131,7 @@ def build_index(chapters: list[dict], commit: str, date: str) -> str:
         f"title = {toml_str('Kubernetes Internals Worksheet')}",
         f"date = {date}",
         f"summary = {toml_str(INDEX_SUMMARY)}",
+        'images = ["og/k8s-worksheet-book.png"]',
         "groupByYear = false",
         "[cascade]",
         "  invertPagination = true",
@@ -185,6 +186,7 @@ def main() -> None:
             weight=str(c["number"]),
             summary=toml_str(c["summary"]),
             part=toml_str(part_of[c["number"]]),
+            images='["og/k8s-worksheet-book.png"]',
             showTableOfContents="true",
         )
         path = page_dir / "index.md"

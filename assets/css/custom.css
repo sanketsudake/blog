@@ -863,3 +863,27 @@ html.book-zoom-open {
   line-height: 1;
   cursor: pointer;
 }
+
+/* Quiet end-of-chapter call to action above the prev/next links. */
+.book-cta {
+  margin-bottom: 1.5rem;
+  padding: 0.9rem 1.1rem;
+  border: 1px solid rgba(var(--color-neutral-300), 0.6);
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: rgba(var(--color-neutral-600), 1);
+}
+
+.dark .book-cta {
+  border-color: rgba(var(--color-neutral-700), 0.8);
+  color: rgba(var(--color-neutral-400), 1);
+}
+
+.book-cta a {
+  color: rgba(var(--color-primary-600), 1);
+}
+
+.dark .book-cta a {
+  color: rgba(var(--color-primary-400), 1);
+}

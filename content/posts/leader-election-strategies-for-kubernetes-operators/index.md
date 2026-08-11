@@ -343,5 +343,7 @@ The M-vs-N distribution is whatever falls out of N independent leader races, and
 If you want to read the full code, run the demo, or extend it with a new strategy of your own, the project is at [`github.com/sanketsudake/k8s-operator-leader-election`](https://github.com/sanketsudake/k8s-operator-leader-election).
 Tests, deploy manifests, and a Kind-ready Makefile are all there.
 
+If this scratched an itch, controllers and leader election get the full-book treatment in my free [Kubernetes Internals Worksheet](/books/k8s-worksheet/) — the reconcile machinery, the handover flow, and where both break in production.
+
 We'd love to hear your thoughts on this post.
 Start a conversation on [LinkedIn](https://www.linkedin.com/in/sanketsudake/).

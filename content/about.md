@@ -13,6 +13,7 @@ showWordCount: false
 I am a Principal Engineer at Improving with 11+ years of experience.
 My areas of interest are containers, Cloud and Distributed Systems.
 I am an open-source contributor and maintainer for the Fission serverless platform on Kubernetes.
+I wrote the [Kubernetes Internals Worksheet](/books/k8s-worksheet/), a free book on Kubernetes internals for senior to principal engineers — readable online or as a PDF.
 
 I am a tech enthusiast and like to explore different technologies from Linux kernel to various cloud platforms.
 When not working I like to read various books and spend time with my young daughter tinkering with different toys and games.
