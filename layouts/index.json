@@ -1,0 +1,20 @@
+{{- /* OVERRIDE of Congo's index.json (search index for the Fuse.js site search).
+       Identical to upstream except book chapters are excluded: /books/ carries a
+       ~43k-word book whose full .Plain bodies would multiply the index the
+       homepage ships. Re-diff against the module's layouts/index.json on
+       Congo upgrades. */ -}}
+{{- $index := slice -}}
+{{- range where .Site.Pages "Section" "ne" "books" -}}
+  {{- $section := .Site.GetPage "section" .Section -}}
+  {{- $showDate := .Params.showDate | default .Site.Params.article.showDate -}}
+  {{- $index = $index | append (dict
+    "date" (cond (and .IsPage $showDate) (.Date | time.Format (site.Params.dateFormat | default ":date_long")) nil)
+    "title" (.Title | emojify | safeJS)
+    "section" ($section.Title | emojify | safeJS)
+    "summary" (.Summary | emojify | safeJS)
+    "content" (.Plain | emojify | safeJS)
+    "permalink" .Permalink
+    )
+  -}}
+{{- end -}}
+{{- $index | jsonify -}}
