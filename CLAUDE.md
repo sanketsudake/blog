@@ -21,6 +21,8 @@ But three files copy a **Congo module partial/layout** and patch it — after an
 - `layouts/_partials/recent-articles.html` — renders the homepage "Recent" list compact (title + meta only), dropping the summary and thumbnail blocks that upstream's `article-link.html` would emit.
   Exists because `list.showSummary = true` (in `params.toml`) is global: it should enrich the `/posts/` and taxonomy lists but *not* clutter the landing page.
   Re-diff against upstream `_partials/article-link.html`.
+- `layouts/index.json` — upstream's search index with one added filter: the `books` section is excluded (a ~43k-word book would multiply the Fuse.js index the homepage ships).
+  Re-diff against upstream `index.json`.
 
 ## Build, serve, deploy
 
@@ -84,6 +86,24 @@ The slideshare embed uses the custom shortcode `{{< slideshare key="…" >}}` de
 The `key` is the trailing path segment of the SlideShare embed URL.
 
 `presentations/` holds the source `.pptx` decks for talks but is **not** part of the rendered site — don't link to it from content.
+
+## Books section
+
+`content/books/k8s-worksheet/` is **generated — never hand-edit it**.
+The source of truth is the sibling repo `../k8s-worksheet`; after a worksheet release, re-run:
+
+```bash
+python3 scripts/import-k8s-worksheet.py    # add --worksheet <path> if not a sibling checkout
+```
+
+The script wipes and regenerates the whole section: it strips each chapter's H1 into `title`, stamps `date` from the worksheet's HEAD commit and the commit hash into a front-matter comment (the answer to "which book version is the site serving"), sets `weight` for ordering, extracts `summary` from each chapter's opening, converts ` ```mermaid ` fences into the Congo `{{< mermaid >}}` shortcode (the worksheet's PDF build needs raw fences, so conversion happens only here), and runs the one-sentence-per-line formatter over the output.
+Book front matter is **TOML** (the posts convention).
+Prose cross-references inside chapters ("Flow 8", "Chapter 10") intentionally stay plain text — do not linkify them.
+
+`content/books/_index.md` and `layouts/books/list.html` are hand-maintained (the list layout renders `.Content` only, since each book's `_index.md` carries its own table of contents).
+The section `_index.md` cascades `invertPagination = true` — without it, Congo's chapter prev/next arrows read backwards for weight-ordered sections.
+
+Book chapters are deliberately excluded from the homepage search index (`layouts/index.json`, a patched copy of Congo's — **re-diff on Congo upgrades**) and from the site-wide RSS feed (`layouts/_default/rss.xml`); they are included in the sitemap, `llms.txt`, and `llms-full.txt`.
 
 ## Diagrams and code in posts
 
