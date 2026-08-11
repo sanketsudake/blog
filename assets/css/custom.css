@@ -752,3 +752,63 @@ a.book-sidebar__item:hover {
 .toc-collapsed .book-toggle--toc .book-toggle__show {
   display: inline;
 }
+
+/* Mermaid click-to-zoom lightbox on book pages: wheel zooms, drag pans,
+   Escape / backdrop / the button close. */
+
+.book-content .mermaid {
+  cursor: zoom-in;
+}
+
+html.book-zoom-open {
+  overflow: hidden;
+}
+
+.book-zoom {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.book-zoom__stage {
+  background: rgba(var(--color-neutral), 1);
+  border-radius: 0.5rem;
+  padding: 1.25rem;
+  cursor: grab;
+  transform-origin: center center;
+}
+
+.book-zoom__stage:active {
+  cursor: grabbing;
+}
+
+.dark .book-zoom__stage {
+  background: rgba(var(--color-neutral-800), 1);
+}
+
+.book-zoom__stage svg {
+  max-width: none !important;
+  width: min(90vw, 1400px);
+  height: auto;
+  display: block;
+}
+
+.book-zoom__close {
+  position: fixed;
+  top: 1rem;
+  right: 1.25rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 9999px;
+  background: rgba(var(--color-neutral-800), 0.8);
+  color: rgba(var(--color-neutral-100), 1);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}

@@ -58,6 +58,57 @@
           sync();
         });
       });
+
+      // Click-to-zoom lightbox for mermaid diagrams: wheel zooms, drag pans,
+      // Escape / backdrop / the close button dismiss.
+      function openZoom(diagram) {
+        var svg = diagram.querySelector('svg');
+        if (!svg) return;
+        var overlay = document.createElement('div');
+        overlay.className = 'book-zoom';
+        var stage = document.createElement('div');
+        stage.className = 'book-zoom__stage';
+        stage.innerHTML = svg.outerHTML;
+        var closeBtn = document.createElement('button');
+        closeBtn.className = 'book-zoom__close';
+        closeBtn.setAttribute('aria-label', 'Close diagram');
+        closeBtn.textContent = '×';
+        overlay.appendChild(stage);
+        overlay.appendChild(closeBtn);
+        document.body.appendChild(overlay);
+        document.documentElement.classList.add('book-zoom-open');
+        var scale = 1, tx = 0, ty = 0, panning = false, sx = 0, sy = 0;
+        function apply() { stage.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + scale + ')'; }
+        function onMove(e) { if (panning) { tx = e.clientX - sx; ty = e.clientY - sy; apply(); } }
+        function onUp() { panning = false; }
+        function onKey(e) { if (e.key === 'Escape') close(); }
+        function close() {
+          overlay.remove();
+          document.documentElement.classList.remove('book-zoom-open');
+          window.removeEventListener('mousemove', onMove);
+          window.removeEventListener('mouseup', onUp);
+          document.removeEventListener('keydown', onKey);
+        }
+        overlay.addEventListener('wheel', function (e) {
+          e.preventDefault();
+          var f = e.deltaY < 0 ? 1.15 : 1 / 1.15;
+          scale = Math.min(8, Math.max(0.4, scale * f));
+          apply();
+        }, { passive: false });
+        stage.addEventListener('mousedown', function (e) {
+          e.preventDefault();
+          panning = true; sx = e.clientX - tx; sy = e.clientY - ty;
+        });
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup', onUp);
+        overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
+        closeBtn.addEventListener('click', close);
+        document.addEventListener('keydown', onKey);
+      }
+      document.querySelectorAll('.book-content .mermaid').forEach(function (d) {
+        d.setAttribute('title', 'Click to zoom');
+        d.addEventListener('click', function () { openZoom(d); });
+      });
     })();
   </script>
 {{ end }}

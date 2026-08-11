@@ -102,7 +102,7 @@ Prose cross-references inside chapters ("Flow 8", "Chapter 10") intentionally st
 
 `content/books/_index.md`, `layouts/books/list.html`, `layouts/books/single.html`, and `layouts/_partials/book-sidebar.html` are hand-maintained.
 Chapter pages use the books single layout: an O'Reilly-style sticky chapter rail (grouped by each chapter's `part` front-matter param, which the import script emits) left of the article, keeping Congo's heading-TOC right rail and prev/next, and dropping post furniture (author, sharing, related).
-Both rails carry round collapse toggles ("zen mode"; state persists across chapters via localStorage), the spread breaks out of Congo's max-w-7xl container to ~88rem centered, and the rails hide below 1024px in favor of the landing TOC and prev/next.
+Mermaid diagrams are click-to-zoom (a dependency-free lightbox in the books single layout: wheel zooms, drag pans, Escape closes). Both rails carry round collapse toggles ("zen mode"; state persists across chapters via localStorage), the spread breaks out of Congo's max-w-7xl container to ~88rem centered, and the rails hide below 1024px in favor of the landing TOC and prev/next.
 Rail styles live in `assets/css/custom.css` under `.book-*` (plain CSS on Congo's color variables — Congo ships precompiled Tailwind, so novel utility classes would not resolve).
 The book section `_index.md` cascades `invertPagination = true` — without it, Congo's chapter prev/next arrows read backwards for weight-ordered sections.
 
