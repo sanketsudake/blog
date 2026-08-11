@@ -12,10 +12,15 @@
     <section class="prose mt-4 dark:prose-invert">{{ . | emojify }}</section>
   {{ end }}
   {{ with .Sections }}
-    <ul class="book-index mt-8">
+    <ul class="book-shelf mt-8">
       {{ range . }}
         <li>
-          <a class="book-index__title" href="{{ .RelPermalink }}">{{ .Title | emojify }}</a>
+          <a class="book-cover" href="{{ .RelPermalink }}">
+            <span class="book-cover__kicker">Book</span>
+            <span class="book-cover__rule"></span>
+            <span class="book-cover__title">{{ .Title | emojify }}</span>
+            <span class="book-cover__meta">{{ len .RegularPages }} chapters</span>
+          </a>
         </li>
       {{ end }}
     </ul>
