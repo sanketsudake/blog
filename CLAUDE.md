@@ -102,7 +102,7 @@ Prose cross-references inside chapters ("Flow 8", "Chapter 10") intentionally st
 
 `content/books/_index.md`, `layouts/books/list.html`, `layouts/books/single.html`, and `layouts/_partials/book-sidebar.html` are hand-maintained.
 Chapter pages use the books single layout: an O'Reilly-style sticky chapter rail (grouped by each chapter's `part` front-matter param, which the import script emits) left of the article, keeping Congo's heading-TOC right rail and prev/next, and dropping post furniture (author, sharing, related).
-All book pages share the branded OG card (`static/og/k8s-worksheet-book.png`, emitted as `images` by the import script), and chapters end with a quiet PDF/GitHub call-to-action block above prev/next. Mermaid diagrams are click-to-zoom (a dependency-free lightbox in the books single layout: wheel zooms, drag pans, Escape closes). Both rails carry round collapse toggles ("zen mode"; state persists across chapters via localStorage), the spread breaks out of Congo's max-w-7xl container to ~88rem centered, and the rails hide below 1024px in favor of the landing TOC and prev/next.
+All book pages share the branded OG card (`static/og/k8s-worksheet-book.png`, emitted as `images` by the import script), and chapters end with a quiet PDF/GitHub call-to-action block above prev/next. Both rails carry round collapse toggles ("zen mode"; state persists across chapters via localStorage), the spread breaks out of Congo's max-w-7xl container to ~88rem centered, and the rails hide below 1024px in favor of the landing TOC and prev/next.
 Rail styles live in `assets/css/custom.css` under `.book-*` (plain CSS on Congo's color variables — Congo ships precompiled Tailwind, so novel utility classes would not resolve).
 The book section `_index.md` cascades `invertPagination = true` — without it, Congo's chapter prev/next arrows read backwards for weight-ordered sections.
 
@@ -112,6 +112,9 @@ Book chapters are deliberately excluded from the homepage search index (`layouts
 
 Mermaid renders natively under Congo via the `{{< mermaid >}}` shortcode — see `content/posts/leader-election-strategies-for-kubernetes-operators/index.md` for examples.
 Prefer Mermaid over committed image assets when a diagram is structural (flow, sequence, ER) so it stays editable in source.
+
+Every mermaid diagram site-wide (posts, books, talks) is click-to-zoom: a dependency-free lightbox in `assets/js/diagram-zoom.js`, shipped by `layouts/_partials/extend-footer.html` only on pages that use the mermaid shortcode (the same `HasShortcode` guard Congo's `vendor.html` uses), styled under `.diagram-zoom` in `assets/css/custom.css`.
+Wheel and pinch zoom, drag pans, +/−/× controls sit top-right, Escape/backdrop close, double-click refits.
 
 ### Mermaid theme — color nodes by semantic role
 

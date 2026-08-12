@@ -1,0 +1,11 @@
+{{- /* Ship the diagram-zoom lightbox (assets/js/diagram-zoom.js) only on
+       pages that render mermaid diagrams — the same guard Congo's
+       vendor.html uses to ship the mermaid library itself. */ -}}
+{{ if .HasShortcode "mermaid" }}
+  {{ $js := resources.Get "js/diagram-zoom.js" | resources.Minify | resources.Fingerprint "sha512" }}
+  <script
+    defer
+    src="{{ $js.RelPermalink }}"
+    integrity="{{ $js.Data.Integrity }}"
+  ></script>
+{{ end }}
