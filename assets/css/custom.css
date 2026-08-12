@@ -804,64 +804,90 @@ a.book-sidebar__item:hover {
   display: inline;
 }
 
-/* Mermaid click-to-zoom lightbox on book pages: wheel zooms, drag pans,
-   Escape / backdrop / the button close. */
+/* Site-wide mermaid click-to-zoom lightbox (assets/js/diagram-zoom.js,
+   loaded via layouts/_partials/extend-footer.html): click opens a
+   full-screen panel, wheel/pinch zooms, drag pans, +/− buttons step
+   zoom, ×/Escape/backdrop close. */
 
-.book-content .mermaid {
+.mermaid {
   cursor: zoom-in;
 }
 
-html.book-zoom-open {
+html.diagram-zoom-open {
   overflow: hidden;
 }
 
-.book-zoom {
+.diagram-zoom {
   position: fixed;
   inset: 0;
   z-index: 60;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 1rem;
+  background: rgba(0, 0, 0, 0.55);
+}
+
+.diagram-zoom__panel {
+  position: relative;
+  width: 100%;
+  height: 100%;
   overflow: hidden;
-  background: rgba(0, 0, 0, 0.72);
-}
-
-.book-zoom__stage {
+  border-radius: 0.75rem;
   background: rgba(var(--color-neutral), 1);
-  border-radius: 0.5rem;
-  padding: 1.25rem;
+  touch-action: none;
   cursor: grab;
-  transform-origin: center center;
 }
 
-.book-zoom__stage:active {
+.diagram-zoom__panel:active {
   cursor: grabbing;
 }
 
-.dark .book-zoom__stage {
+.dark .diagram-zoom__panel {
   background: rgba(var(--color-neutral-800), 1);
 }
 
-.book-zoom__stage svg {
-  max-width: none !important;
-  width: min(90vw, 1400px);
-  height: auto;
-  display: block;
+.diagram-zoom__stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform-origin: 0 0;
 }
 
-.book-zoom__close {
-  position: fixed;
-  top: 1rem;
-  right: 1.25rem;
-  width: 2.5rem;
-  height: 2.5rem;
+.diagram-zoom__stage svg {
+  display: block;
+  max-width: none !important;
+}
+
+.diagram-zoom__controls {
+  position: absolute;
+  top: 0.9rem;
+  right: 0.9rem;
+  z-index: 1;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.diagram-zoom__btn {
+  width: 2.25rem;
+  height: 2.25rem;
   border: none;
   border-radius: 9999px;
-  background: rgba(var(--color-neutral-800), 0.8);
-  color: rgba(var(--color-neutral-100), 1);
-  font-size: 1.5rem;
+  background: rgba(var(--color-neutral-300), 0.5);
+  color: rgba(var(--color-neutral-700), 1);
+  font-size: 1.25rem;
   line-height: 1;
   cursor: pointer;
+}
+
+.diagram-zoom__btn:hover {
+  background: rgba(var(--color-neutral-300), 0.9);
+}
+
+.dark .diagram-zoom__btn {
+  background: rgba(var(--color-neutral-600), 0.6);
+  color: rgba(var(--color-neutral-200), 1);
+}
+
+.dark .diagram-zoom__btn:hover {
+  background: rgba(var(--color-neutral-600), 1);
 }
 
 /* Quiet end-of-chapter call to action above the prev/next links. */
