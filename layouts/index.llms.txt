@@ -16,8 +16,9 @@ Engineering writing and conference talks by {{ .Site.Params.author.name }} on Ku
 - [{{ .Title }}]({{ .Permalink }}){{ with .Params.event }} — {{ . }}{{ end }}{{ with .Summary }}: {{ . | plainify | htmlUnescape | chomp }}{{ end }}
 {{ end }}
 ## Books
-{{ range (where .Site.RegularPages "Section" "books").ByWeight -}}
+{{ range (.Site.GetPage "books").Sections.ByWeight -}}
 - [{{ .Title }}]({{ .Permalink }}){{ with .Summary }}: {{ . | plainify | htmlUnescape | chomp }}{{ end }}
-{{ end }}
+{{ range .RegularPages.ByWeight }}  - [{{ .Title }}]({{ .Permalink }}){{ with .Summary }}: {{ . | plainify | htmlUnescape | chomp }}{{ end }}
+{{ end }}{{ end }}
 ## About
 - [About {{ .Site.Params.author.name }}]({{ "about/" | absURL }}): Principal Engineer at Improving; maintainer of the Fission serverless platform.
