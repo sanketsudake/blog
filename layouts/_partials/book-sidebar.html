@@ -1,6 +1,6 @@
 {{- /* O'Reilly-style chapter rail for book pages. Groups the book's chapters
        by their `part` front-matter param (contiguous by weight; emitted by
-       scripts/import-k8s-worksheet.py). Chapter labels shorten
+       scripts/import-book.py). Chapter labels shorten
        "Chapter N — Title" to "N. Title"; the appendices keep their title. */ -}}
 {{ $book := .CurrentSection }}
 {{ $current := . }}

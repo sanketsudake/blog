@@ -37,10 +37,16 @@
         </div>
       </section>
       <footer class="book-measure pt-8 print:hidden">
-        <div class="book-cta">
-          Reading offline works too — <a href="https://github.com/sanketsudake/k8s-worksheet/releases/latest/download/kubernetes-internals-worksheet.pdf">download the PDF</a>.
-          Spotted an error? <a href="https://github.com/sanketsudake/k8s-worksheet/issues">Open an issue</a> — or <a href="https://github.com/sanketsudake/k8s-worksheet">star the book on GitHub</a> to follow updates.
-        </div>
+        {{- /* Per-book links come from the book's _index.md (`repo`, `pdf`),
+               emitted by scripts/import-book.py. */ -}}
+        {{ with .CurrentSection }}
+          {{ if or .Params.pdf .Params.repo }}
+            <div class="book-cta">
+              {{ with .Params.pdf }}Reading offline works too — <a href="{{ . }}">download the PDF</a>.{{ end }}
+              {{ with .Params.repo }}Spotted an error? <a href="{{ . }}/issues">Open an issue</a> — or <a href="{{ . }}">star the book on GitHub</a> to follow updates.{{ end }}
+            </div>
+          {{ end }}
+        {{ end }}
         {{ partial "article-pagination.html" . }}
       </footer>
     </article>

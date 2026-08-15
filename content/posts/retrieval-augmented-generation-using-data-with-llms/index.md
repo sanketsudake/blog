@@ -226,6 +226,8 @@ RAG enables more accurate and contextually relevant responses, making it particu
 As advancements in GenAI technology continue, we can expect RAG to play an increasingly important role in enabling more intelligent and context-aware interactions with data.
 
 We hope you found this post informative and engaging.
+If you want to go deeper, retrieval is one chapter of my free [Agentic Engineering Worksheet](/books/agentic-engineering/) — RAG, memory, tools, evals, and guardrails, traced end to end.
+
 We'd love to hear your thoughts on this post — start a conversation on [LinkedIn](https://www.linkedin.com/in/sanketsudake/).
 
 ## References

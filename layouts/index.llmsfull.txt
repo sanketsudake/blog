@@ -17,12 +17,14 @@ URL: {{ .Permalink }}
 {{ end }}
 {{ .Plain | htmlUnescape | chomp }}
 {{ end }}
-{{ range (where .Site.RegularPages "Section" "books").ByWeight }}
+{{ range (.Site.GetPage "books").Sections.ByWeight }}
+{{- $book := . }}
+{{- range .RegularPages.ByWeight }}
 ---
 
-## {{ .Title }}
+## {{ $book.Title }} — {{ .Title }}
 
 URL: {{ .Permalink }}
 
 {{ .Plain | htmlUnescape | chomp }}
-{{ end }}
+{{ end }}{{ end }}

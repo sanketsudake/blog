@@ -89,20 +89,23 @@ The `key` is the trailing path segment of the SlideShare embed URL.
 
 ## Books section
 
-`content/books/k8s-worksheet/` is **generated — never hand-edit it**.
-The source of truth is the sibling repo `../k8s-worksheet`; after a worksheet release, re-run:
+Two books live under `content/books/`, each **generated — never hand-edit them**: `k8s-worksheet/` (source: sibling repo `../k8s-worksheet`) and `agentic-engineering/` (source: `../agentic-engineering`).
+After a book release, re-run the import for that book:
 
 ```bash
-python3 scripts/import-k8s-worksheet.py    # add --worksheet <path> if not a sibling checkout
+python3 scripts/import-book.py --book k8s-worksheet          # add --source <path> if not a sibling checkout
+python3 scripts/import-book.py --book agentic-engineering
 ```
 
-The script wipes and regenerates the whole section: it strips each chapter's H1 into `title`, stamps `date` from the worksheet's HEAD commit and the commit hash into a front-matter comment (the answer to "which book version is the site serving"), sets `weight` for ordering, extracts `summary` from each chapter's opening, converts ` ```mermaid ` fences into the Congo `{{< mermaid >}}` shortcode (the worksheet's PDF build needs raw fences, so conversion happens only here), and runs the one-sentence-per-line formatter over the output.
+Per-book config (title, parts, shelf `weight`, OG card, repo/PDF URLs) is the `BOOKS` dict at the top of the script; adding a third book means a new entry there plus a card under `static/og/`.
+The script wipes and regenerates the whole section: it strips each chapter's H1 into `title`, stamps `date` from the source repo's HEAD commit and the commit hash into a front-matter comment (the answer to "which book version is the site serving"), sets `weight` for ordering, extracts `summary` from each chapter's opening, converts ` ```mermaid ` fences into the Congo `{{< mermaid >}}` shortcode (the PDF builds need raw fences, so conversion happens only here), rewrites the source's relative chapter links (`ch03.md#anchor`) into absolute `{{< relref "/books/<book>/<slug>" >}}` links (anchors pass through — Hugo's GitHub-style heading IDs match the source's linkify slugs), and runs the one-sentence-per-line formatter over the output.
 Book front matter is **TOML** (the posts convention).
-Prose cross-references inside chapters ("Flow 8", "Chapter 10") intentionally stay plain text — do not linkify them.
+Plain-text cross-references inside chapters ("Flow 8", "Chapter 10") intentionally stay plain — do not linkify them here; only links the source already carries are rewritten.
+The book `_index.md` carries `repo` and `pdf` params that drive the chapter call-to-action in `layouts/books/single.html`.
 
 `content/books/_index.md`, `layouts/books/list.html`, `layouts/books/single.html`, and `layouts/_partials/book-sidebar.html` are hand-maintained.
 Chapter pages use the books single layout: an O'Reilly-style sticky chapter rail (grouped by each chapter's `part` front-matter param, which the import script emits) left of the article, keeping Congo's heading-TOC right rail and prev/next, and dropping post furniture (author, sharing, related).
-All book pages share the branded OG card (`static/og/k8s-worksheet-book.png`, emitted as `images` by the import script), and chapters end with a quiet PDF/GitHub call-to-action block above prev/next. Both rails carry round collapse toggles ("zen mode"; state persists across chapters via localStorage), the spread breaks out of Congo's max-w-7xl container to ~88rem centered, and the rails hide below 1024px in favor of the landing TOC and prev/next.
+All pages of a book share its branded OG card (`static/og/<book>-book.png`, emitted as `images` by the import script; the same PNG doubles as `.github/book-card.png` in the source repo's README), and chapters end with a quiet PDF/GitHub call-to-action block above prev/next. Both rails carry round collapse toggles ("zen mode"; state persists across chapters via localStorage), the spread breaks out of Congo's max-w-7xl container to ~88rem centered, and the rails hide below 1024px in favor of the landing TOC and prev/next.
 Rail styles live in `assets/css/custom.css` under `.book-*` (plain CSS on Congo's color variables — Congo ships precompiled Tailwind, so novel utility classes would not resolve).
 The book section `_index.md` cascades `invertPagination = true` — without it, Congo's chapter prev/next arrows read backwards for weight-ordered sections.
 
